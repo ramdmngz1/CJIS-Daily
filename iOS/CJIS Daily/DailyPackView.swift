@@ -68,7 +68,6 @@ struct DailyPackView: View {
             viewModel.refreshTodayTips()
 
             if index >= tips.count { index = 0 }
-            markCurrentTipViewed()
 
             // pull persisted score if already completed
             todaysScore = DailyPackProgressManager.shared.todaysScore
@@ -81,7 +80,6 @@ struct DailyPackView: View {
         .onChange(of: index) { _ in
             showDetails = false
             detailsOpacity = 0
-            markCurrentTipViewed()
         }
         .fullScreenCover(item: $activeSheet) { sheet in
             switch sheet {
@@ -271,10 +269,5 @@ struct DailyPackView: View {
             .buttonStyle(.plain)
             .disabled(tips.isEmpty)
         }
-    }
-
-    private func markCurrentTipViewed() {
-        guard let tip = currentTip else { return }
-        DailyPackProgressManager.shared.markViewed(tipId: tip.id)
     }
 }

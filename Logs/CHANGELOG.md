@@ -2,6 +2,36 @@
 
 ---
 
+## 2026-03-10
+
+### Bug Fixes
+
+**`CJIS Daily.xcodeproj/project.pbxproj`**
+- Fixed test target source wiring by adding filesystem-synced groups for `CJIS DailyTests` and `CJIS DailyUITests`, so test bundles include compiled test executables correctly.
+- Aligned deployment targets for project and test targets to `15.6` (removed `26.1` mismatch that could block simulator/device test runs).
+
+**`NotificationManager.swift` + `AppViewModel.swift`**
+- Changed daily reminder scheduling to use a neutral notification body (`"Open CJIS Daily for today's tip."`) instead of a static tip title, preventing stale repeated content.
+- Limited pending-notification removal to the app’s own identifier (`dailyCJISTip`) instead of removing all pending notifications.
+
+**`DailyPackProgressManager.swift` + `DailyPackView.swift`**
+- Removed dead daily-pack state (`viewedTipIds`) and the unused `markViewed` flow to reduce unnecessary persistence churn.
+
+### Maintenance
+
+**Tests Added**
+- Added missing baseline test files:
+  - `iOS/CJIS DailyTests/CJIS_DailyTests.swift`
+  - `iOS/CJIS DailyUITests/CJIS_DailyUITests.swift`
+  - `iOS/CJIS DailyUITests/CJIS_DailyUITestsLaunchTests.swift`
+
+**Repository Cleanup**
+- Removed non-runtime artifacts that should not ship in source:
+  - `iOS/CJIS Daily/CJIS.psd`
+  - `Archive/CJIS Daily.app/*`
+
+---
+
 ## 2026-03-09
 
 ### Bug Fixes

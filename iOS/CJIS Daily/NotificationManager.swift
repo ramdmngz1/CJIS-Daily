@@ -20,12 +20,7 @@ final class NotificationManager {
         }
     }
 
-    func scheduleDailyTipNotification(at time: DateComponents, tip: CJISTip?) {
-        guard let tip = tip else {
-            print("⚠️ No tip available — skipping notification reschedule, existing schedule preserved")
-            return
-        }
-
+    func scheduleDailyTipNotification(at time: DateComponents) {
         let center = UNUserNotificationCenter.current()
 
         // Only schedule if the user has granted permission — silently skip if they revoked it.
@@ -36,11 +31,11 @@ final class NotificationManager {
                 return
             }
 
-            center.removeAllPendingNotificationRequests()
+            center.removePendingNotificationRequests(withIdentifiers: ["dailyCJISTip"])
 
             let content = UNMutableNotificationContent()
             content.title = "CJIS Tip of the Day"
-            content.body = tip.title
+            content.body = "Open CJIS Daily for today's tip."
             content.sound = .default
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: time, repeats: true)

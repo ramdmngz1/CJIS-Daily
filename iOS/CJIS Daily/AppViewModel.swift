@@ -46,9 +46,7 @@ final class AppViewModel: ObservableObject {
             print("⚠️ Failed to encode notification time: \(error)")
         }
 
-        // Use the first tip in today's pack for the notification body.
-        let firstTip = todayTips.first
         let comps = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
-        NotificationManager.shared.scheduleDailyTipNotification(at: comps, tip: firstTip)
+        NotificationManager.shared.scheduleDailyTipNotification(at: comps)
     }
 }

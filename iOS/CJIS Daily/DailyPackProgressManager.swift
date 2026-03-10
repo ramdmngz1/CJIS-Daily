@@ -2,7 +2,7 @@
 //  DailyPackProgressManager.swift
 //  CJIS Daily
 //
-//  Tracks which of today's 5 tips have been viewed (Next counts as viewed) and whether today's Daily Check is completed.
+//  Tracks whether today's Daily Check is completed and stores today's score.
 //
 import Foundation
 
@@ -17,7 +17,6 @@ final class DailyPackProgressManager {
 
     struct State: Codable {
         var dayKey: String
-        var viewedTipIds: Set<Int>
         var dailyCheckCompleted: Bool
         var score: Score?
     }
@@ -33,7 +32,7 @@ final class DailyPackProgressManager {
            decoded.dayKey == todayKey {
             state = decoded
         } else {
-            state = State(dayKey: todayKey, viewedTipIds: [], dailyCheckCompleted: false, score: nil)
+            state = State(dayKey: todayKey, dailyCheckCompleted: false, score: nil)
             persist()
         }
     }
@@ -41,13 +40,7 @@ final class DailyPackProgressManager {
     func resetIfNewDay(date: Date = Date()) {
         let todayKey = Self.dayKey(for: date)
         guard state.dayKey != todayKey else { return }
-        state = State(dayKey: todayKey, viewedTipIds: [], dailyCheckCompleted: false, score: nil)
-        persist()
-    }
-
-    func markViewed(tipId: Int) {
-        resetIfNewDay()
-        state.viewedTipIds.insert(tipId)
+        state = State(dayKey: todayKey, dailyCheckCompleted: false, score: nil)
         persist()
     }
 

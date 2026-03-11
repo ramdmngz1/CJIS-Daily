@@ -2,6 +2,80 @@
 
 ---
 
+## 2026-03-11
+
+### Android — Initial Release Build
+
+**New Platform: Android (Kotlin / Jetpack Compose)**
+- Created full Android project at `Android/Project/` targeting API 26+ (Android 8.0), compiled against API 35.
+- Package ID matches iOS: `com.refuge.cjisdaily`.
+
+**`app/build.gradle.kts` + `gradle/libs.versions.toml`**
+- Configured AGP 8.5.2, Kotlin 2.0.21, Compose BOM 2024.09.03, Material3.
+- Dependencies: WorkManager, DataStore Preferences, Gson, Coroutines, Material Icons Extended.
+
+**`data/Models.kt`**
+- `CjisTip`, `QuizQuestion`, `TipQuizSet`, `DailyScore`, `QuizProgress`, `DailyPackProgress` — direct Kotlin equivalents of iOS Swift models.
+
+**`data/DataRepository.kt`**
+- Loads `cjis_tips.json` and `cjis_quizzes.json` from `res/raw/` via Gson.
+- `tipsForToday()` uses the same deterministic day-of-year rotation algorithm as iOS.
+- Both JSON files copied from iOS project.
+
+**`viewmodel/CJISViewModel.kt`**
+- Replaces iOS `AppViewModel` + progress managers with a single `ViewModel` + `StateFlow`.
+- DataStore Preferences replaces `UserDefaults` for dark mode, reminder time, quiz progress, and daily pack progress.
+- Full quiz state machine: `startDailyCheck()`, `selectAnswer()`, `submitAnswer()`, `nextQuestion()`, `finishQuiz()`.
+- Streak and lifetime accuracy tracking with same double-count prevention as iOS (key-gated by day string).
+
+**`ui/screens/DailyPackScreen.kt`**
+- 5-tip daily pack with animated tip transitions, progress dots, expandable long text, and back/next navigation.
+- Shows "Start Daily Check" or "View Results" + "Completed for today" based on `DailyPackProgress`.
+
+**`ui/screens/DailyCheckScreen.kt`**
+- 5-question daily quiz with `AnswerOptionButton` state machine (NORMAL / SELECTED / CORRECT / WRONG / DISABLED).
+- Per-question explanation revealed after submission; live score counter in footer.
+
+**`ui/screens/ResultsScreen.kt`**
+- Displays today's score, lifetime correct/answered, lifetime accuracy %, and streak count.
+
+**`ui/screens/SettingsScreen.kt`**
+- Dark/light mode toggle with `Switch`.
+- Material3 `TimePicker` for daily reminder time with "Save Reminder" button.
+- About card with app description.
+
+**`ui/components/AnswerOptionButton.kt`**
+- Stateful answer button with circular indicator, check/X icons, and border color keyed to `AnswerState` enum.
+
+**`ui/theme/`**
+- `Color.kt`: CJIS Blue `#1C5CA1`, parchment light background, deep charcoal dark background, CorrectGreen, WrongRed.
+- `Theme.kt`: `CJISDailyTheme` with explicit light/dark `ColorScheme`; theme driven by `isDarkMode` StateFlow (not system default).
+- `Type.kt`: Serif headings, sans-serif body/labels — mirrors iOS typography scale.
+
+**`notifications/DailyReminderWorker.kt`**
+- `PeriodicWorkRequest` fires daily at user-set time. Initial delay calculated to next target time.
+- Creates `NotificationChannel` on first run; uses `ExistingPeriodicWorkPolicy.UPDATE` to reschedule cleanly.
+
+**`notifications/BootReceiver.kt`**
+- Restores WorkManager schedule after device reboot by reading saved hour/minute from DataStore.
+
+**`MainActivity.kt`**
+- Added runtime `POST_NOTIFICATIONS` permission request for Android 13+ (API 33+).
+- `AnimatedContent`-based screen router with no Navigation library needed (4 screens: PACK, QUIZ, RESULTS, SETTINGS).
+
+**`AndroidManifest.xml`**
+- Permissions: `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED`.
+- `BootReceiver` registered for `BOOT_COMPLETED`.
+
+**`res/mipmap-*/`**
+- App icons generated from iOS 1024×1024 marketing icon, resized to all Android mipmap densities (mdpi 48px → xxxhdpi 192px).
+- Adaptive icon XML (`mipmap-anydpi-v26/`) with CJIS Blue background.
+
+**`gradle/wrapper/gradle-wrapper.properties`**
+- Added wrapper pointing to Gradle 8.7.
+
+---
+
 ## 2026-03-10
 
 ### Bug Fixes

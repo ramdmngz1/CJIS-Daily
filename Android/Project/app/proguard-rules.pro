@@ -1,0 +1,3 @@
+-keep class com.refuge.cjisdaily.data.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*

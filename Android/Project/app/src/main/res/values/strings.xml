@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CJIS Daily</string>
+    <string name="notification_channel_name">Daily Tip Reminder</string>
+    <string name="notification_channel_description">Daily CJIS tip reminders</string>
+    <string name="notification_title">CJIS Tip of the Day</string>
+    <string name="notification_body">Open CJIS Daily for today\'s tip.</string>
+</resources>

@@ -1,0 +1,2558 @@
+
+[
+  {
+    "id": 1,
+    "title": "Use Unique User Accounts",
+    "shortText": "Never share logins on CJIS systems; every user must have a unique account.",
+    "longText": "CJIS requires that organizational users be uniquely identified so that every action on a CJIS-connected system can be tied back to a specific person. Shared or generic accounts destroy accountability and make it nearly impossible to investigate misuse or a breach. Replace generic accounts like 'RecordsUser' or 'Admin1' with named accounts, and review existing accounts for any that are shared.",
+    "section": "AC-2 Account Management / IA-2 Identification and Authentication (Organizational Users)"
+  },
+  {
+    "id": 2,
+    "title": "Disable Unused Accounts Promptly",
+    "shortText": "Disable CJIS accounts immediately when staff leave or no longer need access.",
+    "longText": "Account management controls in CJIS 6.0 expect agencies to remove or disable access as soon as it is no longer required. Dormant accounts, especially with elevated privileges, are a prime target for misuse and external attackers. Build a simple off-boarding checklist so that HR, IT, and CJIS Security staff know exactly which accounts to disable when someone transfers or departs.",
+    "section": "AC-2 Account Management"
+  },
+  {
+    "id": 3,
+    "title": "Apply Least Privilege",
+    "shortText": "Give users only the CJIS permissions they need to do their jobs—nothing more.",
+    "longText": "Least privilege is a core CJIS principle: users should only have access to the information and functions that support their assigned duties. Broad 'super user' or 'admin' roles for everyday work increase risk and amplify the impact of a compromise. Map roles to actual tasks and regularly review permissions to remove access that is no longer justified.",
+    "section": "AC-6 Least Privilege"
+  },
+  {
+    "id": 4,
+    "title": "Separate High-Risk Duties",
+    "shortText": "Avoid giving one person sole control over sensitive CJIS functions.",
+    "longText": "Separation of duties reduces the chance that one person can perform inappropriate actions without detection. Under CJIS, functions such as system administration, security monitoring, and audit log review should not all rest with a single individual. Use role design and technical controls so that critical steps require at least two people, or at minimum are heavily monitored.",
+    "section": "AC-5 Separation of Duties"
+  },
+  {
+    "id": 5,
+    "title": "Lock Devices When Idle",
+    "shortText": "Configure CJIS workstations and terminals to lock after a short period of inactivity.",
+    "longText": "Device lock and session timeout requirements exist to prevent unauthorized viewing or misuse when a user steps away from their desk or mobile terminal. Screen savers with secure re-authentication, or automatic session termination after inactivity, are simple controls that protect CJI from shoulder surfing and walk-up access. Work with IT to set consistent timeouts across desktops, laptops, MDTs, and kiosks.",
+    "section": "AC-11 Device Lock / AC-12 Session Termination"
+  },
+  {
+    "id": 6,
+    "title": "Enforce Strong Authentication for Remote Access",
+    "shortText": "Require multi-factor authentication for any remote CJIS access.",
+    "longText": "CJIS 6.0 expects stronger authentication when users access CJIS resources from outside the controlled network. Password-only remote access is not sufficient. Implement multi-factor authentication—ideally using phishing-resistant methods—on VPNs, remote desktops, and web portals that handle CJI. Periodically test remote paths to confirm that no legacy or backdoor access bypasses MFA.",
+    "section": "AC-17 Remote Access / IA-2 Multi-Factor Authentication"
+  },
+  {
+    "id": 7,
+    "title": "Secure Wireless Access to CJI",
+    "shortText": "Treat wireless networks that can reach CJI as high-risk and secure them accordingly.",
+    "longText": "Wireless access controls in CJIS 6.0 require strong authentication, encryption, and configuration management when Wi-Fi can reach CJIS services. Use enterprise-grade authentication, restrict which SSIDs can access CJIS networks, and avoid open or shared credentials. Regularly review wireless configurations and logs to ensure only authorized devices are connecting.",
+    "section": "AC-18 Wireless Access / 5.20 Mobile Devices"
+  },
+  {
+    "id": 8,
+    "title": "Restrict Use of External Systems",
+    "shortText": "Limit when and how staff can move CJI to external or non-CJIS systems.",
+    "longText": "CJIS requires agencies to control how CJI is accessed from or transferred to systems outside of the CJIS-controlled environment. This includes cloud services, personal devices, and partner systems. Define and document what is allowed, require written agreements where appropriate, and technically block unapproved uploads or syncing of CJIS data to consumer services.",
+    "section": "AC-20 Use of External Systems"
+  },
+  {
+    "id": 9,
+    "title": "Provide Regular Security Awareness Training",
+    "shortText": "Make sure everyone with CJIS access receives recurring security awareness training.",
+    "longText": "Awareness and training controls in CJIS 6.0 require that personnel understand their responsibilities when handling CJI. Training must cover topics like proper use, social engineering, insider threats, and reporting incidents. Track who has completed training, ensure new hires are trained before being granted access, and refresh content at least every two years or when major policy changes occur.",
+    "section": "AT-2 Literacy Training and Awareness"
+  },
+  {
+    "id": 10,
+    "title": "Deliver Role-Based Training",
+    "shortText": "Tailor CJIS training to the specific roles people perform, not just generic content.",
+    "longText": "CJIS distinguishes between general awareness and role-based training. Administrators, security officers, dispatchers, and records personnel all interact with CJI differently and face different risks. Provide targeted training that covers the controls, procedures, and tools relevant to each role so they understand how CJIS policy applies to their daily work.",
+    "section": "AT-3 Role-Based Training"
+  },
+  {
+    "id": 11,
+    "title": "Log Important Security Events",
+    "shortText": "Make sure CJIS systems log key events like logons, failures, and access to sensitive data.",
+    "longText": "Audit and accountability controls require that CJIS systems generate records of security-relevant events. At a minimum, log successful and failed logons, privilege changes, configuration changes, and access to particularly sensitive CJI. Confirm that clocks are synchronized so timestamps are reliable, and ensure that logs are retained for the period defined by state or agency policy.",
+    "section": "AU-2 Event Logging / AU-8 Time Stamps / AU-11 Audit Record Retention"
+  },
+  {
+    "id": 12,
+    "title": "Review Audit Logs on a Schedule",
+    "shortText": "Don’t just collect logs—review and analyze them on a regular schedule.",
+    "longText": "CJIS 6.0 expects agencies to actively use their audit logs to detect misuse and unusual patterns. Define how often each system’s logs are reviewed, who is responsible, and what constitutes suspicious activity. Document log reviews and follow-up actions so you can show auditors that monitoring is happening consistently, not just in response to incidents.",
+    "section": "AU-6 Audit Record Review, Analysis, and Reporting"
+  },
+  {
+    "id": 13,
+    "title": "Protect Audit Logs from Tampering",
+    "shortText": "Store CJIS audit logs so that only authorized staff can modify or delete them.",
+    "longText": "Audit information must be protected from unauthorized access and modification. Store logs in secured repositories with access restricted to a small set of administrators or security personnel, and avoid giving application owners the ability to erase their own records. Consider write-once storage or centralized log management to improve integrity and support investigations.",
+    "section": "AU-9 Protection of Audit Information"
+  },
+  {
+    "id": 14,
+    "title": "Maintain and Test a Contingency Plan",
+    "shortText": "Document how you will restore CJIS services after an outage—and test that plan.",
+    "longText": "Contingency planning controls require agencies to prepare for disruptions such as hardware failure, cyber incidents, or facility loss. Create a written contingency plan that identifies critical CJIS systems, recovery priorities, roles, and procedures. Test the plan through exercises or simulations and update it based on lessons learned.",
+    "section": "CP-2 Contingency Plan / CP-4 Contingency Plan Testing"
+  },
+  {
+    "id": 15,
+    "title": "Back Up CJIS Systems and Data Securely",
+    "shortText": "Back up CJIS systems regularly and protect those backups with strong controls.",
+    "longText": "CJIS requires that agencies be able to restore CJIS systems and data after a failure or incident. Perform backups on a schedule appropriate to the system’s criticality, protect backups with access controls and encryption, and periodically test restore procedures. Treat backup media as containing CJI and handle it accordingly, including secure storage and sanitization when retired.",
+    "section": "CP-9 System Backup / CP-10 System Recovery and Reconstitution"
+  },
+  {
+    "id": 16,
+    "title": "Categorize Systems Handling CJI",
+    "shortText": "Formally categorize systems based on the type and sensitivity of CJI they process.",
+    "longText": "Risk assessment controls call for agencies to understand which systems process CJI and how critical they are. By categorizing systems, you can prioritize security investments, vulnerability scanning, logging, and monitoring where it matters most. Document the categorization and review it when systems change or new services are added.",
+    "section": "RA-2 Security Categorization / RA-3 Risk Assessment"
+  },
+  {
+    "id": 17,
+    "title": "Scan for Vulnerabilities Routinely",
+    "shortText": "Perform regular vulnerability scans on CJIS systems and act on the findings.",
+    "longText": "CJIS 6.0 emphasizes vulnerability monitoring as part of a risk-based security program. Use approved tools to scan CJIS servers, workstations, and applications for known weaknesses. Prioritize remediation based on severity and exposure, and track remediation progress. Include authenticated scans where feasible so configuration issues are detected.",
+    "section": "RA-5 Vulnerability Monitoring and Scanning"
+  },
+  {
+    "id": 18,
+    "title": "Control Changes to CJIS Systems",
+    "shortText": "Use a formal change management process for all significant CJIS system changes.",
+    "longText": "Configuration management controls require that agencies evaluate and document the impact of changes to CJIS systems before implementation. This includes software updates, new configurations, and infrastructure changes. Changes should be tested, approved by appropriate personnel, and tracked so you can reconstruct what was changed and why if problems arise.",
+    "section": "CM-3 Configuration Change Control / CM-4 Impact Analyses"
+  },
+  {
+    "id": 19,
+    "title": "Limit Installed Software and Services",
+    "shortText": "Remove unnecessary software, services, and features from CJIS systems.",
+    "longText": "Least functionality is a key configuration principle in CJIS: systems should only run the components needed to support the mission. Extra services and applications increase the attack surface and make patching harder. Review installed software and enabled services on CJIS servers and workstations, remove what is not required, and restrict who can install new software.",
+    "section": "CM-7 Least Functionality / CM-10 Software Usage Restrictions"
+  },
+  {
+    "id": 20,
+    "title": "Control Physical Access to CJIS Areas",
+    "shortText": "Protect rooms and spaces that house CJIS systems with appropriate physical controls.",
+    "longText": "Physical and environmental protection requirements include restricting who can enter areas where CJIS systems or media are located. Use locks, badges, visitor logs, and where appropriate, surveillance to control and record access. Ensure staff know that propping open secure doors or bypassing controls is not acceptable, even for convenience.",
+    "section": "PE-2 Physical Access Authorizations / PE-3 Physical Access Control"
+  },
+  {
+    "id": 21,
+    "title": "Secure CJIS Media in Storage and Transit",
+    "shortText": "Store and transport drives, discs, and printed CJI using secure methods.",
+    "longText": "Media protection controls cover how CJI is handled on physical media, including backup tapes, USB drives, laptops, and printed reports. When not in use, store such media in locked containers or rooms with controlled access. When transporting, use tamper-evident packaging or locked cases, and maintain chain-of-custody where appropriate.",
+    "section": "MP-4 Media Storage / MP-5 Media Transport"
+  },
+  {
+    "id": 22,
+    "title": "Sanitize Media Before Reuse or Disposal",
+    "shortText": "Wipe or destroy any media that contained CJI before it is reused or discarded.",
+    "longText": "CJIS 6.0 requires agencies to sanitize media so that CJI cannot be recovered once it is no longer needed. This may include secure erase procedures, degaussing where applicable, or physical destruction such as shredding or crushing. Keep records of media sanitization for audit purposes, especially when devices are sent to surplus or recycling.",
+    "section": "MP-6 Media Sanitization"
+  },
+  {
+    "id": 23,
+    "title": "Encrypt CJI in Transit",
+    "shortText": "Use strong, FIPS-validated encryption when CJI crosses untrusted networks.",
+    "longText": "Transmission confidentiality and integrity controls require that CJI sent over public or otherwise untrusted networks be protected from eavesdropping and tampering. Use VPNs, TLS, or other approved cryptographic mechanisms that rely on FIPS-validated modules. Periodically review cipher suites and protocol versions to ensure they meet current CJIS expectations.",
+    "section": "SC-8 Transmission Confidentiality and Integrity / SC-13 Cryptographic Protection"
+  },
+  {
+    "id": 24,
+    "title": "Protect CJI at Rest with Encryption Where Appropriate",
+    "shortText": "Use disk or database encryption for CJIS systems, especially on mobile and high-risk assets.",
+    "longText": "CJIS recognizes the value of cryptographic protection for data at rest, particularly for laptops, mobile devices, and servers in less controlled environments. Full-disk encryption, secure key management, and strict access controls help prevent exposure if a device is lost or stolen. Evaluate which systems pose the highest risk and ensure they use approved encryption solutions.",
+    "section": "SC-28 Protection of Information at Rest"
+  },
+  {
+    "id": 25,
+    "title": "Respond Quickly to Security Incidents",
+    "shortText": "Have a documented process for detecting, reporting, and handling CJIS-related security incidents.",
+    "longText": "Incident response controls in CJIS 6.0 require agencies to prepare for events such as suspected misuse, malware infections, or unauthorized access to CJI. Define how incidents are reported, who is notified, and what steps are taken to contain and remediate them. Practice the process with tabletop exercises and update it based on real-world experience.",
+    "section": "IR-4 Incident Handling / IR-6 Incident Reporting"
+  },
+  {
+    "id": 26,
+    "title": "Use Approved Devices Only",
+    "shortText": "Never access CJI from personal or unauthorized devices.",
+    "longText": "CJIS requires agencies to restrict access to Criminal Justice Information (CJI) only to authorized, agency-managed devices. Personal laptops, tablets, or phones lack mandated security controls, logging, and encryption. Always use your assigned workstation or mobile device that meets CJIS technical and policy requirements.",
+    "section": "5.13 Policy Area 13 – Mobile Devices / 5.10 Policy Area 10 – System Configuration"
+  },
+  {
+    "id": 27,
+    "title": "Report Lost or Stolen Devices Immediately",
+    "shortText": "If a CJI-capable device goes missing, report it right away.",
+    "longText": "Missing devices present a direct threat to CJI confidentiality. Agencies must have procedures to rapidly revoke certificates, disable accounts, and wipe devices. Reporting promptly helps prevent unauthorized access and satisfies CJIS incident notification requirements.",
+    "section": "5.13 Mobile Devices / 5.3 Incident Response"
+  },
+  {
+    "id": 28,
+    "title": "Verify Email Senders Carefully",
+    "shortText": "Always inspect suspicious emails before clicking.",
+    "longText": "Phishing remains the #1 attack against law enforcement systems. Confirm sender identity, avoid downloading unexpected attachments, and never click outside login links. Report suspicious messages so they can be blocked for the entire agency.",
+    "section": "5.5 Policy Area 5 – Access Control / 5.3 Incident Response"
+  },
+  {
+    "id": 29,
+    "title": "Use Strong, Complex Passwords",
+    "shortText": "Avoid simple or reused passwords—ever.",
+    "longText": "CJIS Password Requirements mandate minimum complexity and resistance to guessing attacks. Never reuse passwords across systems. Create strong, unique passphrases and store them only in approved, secure, agency-sanctioned managers if permitted.",
+    "section": "5.6 Policy Area 6 – Identification and Authentication"
+  },
+  {
+    "id": 30,
+    "title": "Beware Shoulder Surfing",
+    "shortText": "Protect CJI from people looking over your shoulder.",
+    "longText": "Criminal justice environments often include visitors, contractors, and non-sworn personnel. Always angle screens away from public view and lock your device when stepping away. Screen privacy filters may be required depending on area controls.",
+    "section": "5.10 System Configuration / 5.5 Access Control"
+  },
+  {
+    "id": 31,
+    "title": "Use Multi-Factor Authentication (MFA) Every Time",
+    "shortText": "Never bypass or delay MFA prompts.",
+    "longText": "MFA is required for any remote or privileged access to CJI systems. It stops the majority of credential-theft attacks. If your MFA device malfunctions, report it rather than attempting workarounds.",
+    "section": "5.6 Identification and Authentication"
+  },
+  {
+    "id": 32,
+    "title": "Do Not Store CJI in Personal Notes",
+    "shortText": "Never write CJI into notebooks, unapproved apps, or documents.",
+    "longText": "CJI must only be stored in secure, authorized systems that meet CJIS security controls. Personal notebooks, unencrypted note apps, personal cloud storage, and messaging apps are prohibited locations for CJI storage.",
+    "section": "5.8 Policy Area 8 – Media Protection"
+  },
+  {
+    "id": 33,
+    "title": "Be Cautious When Printing",
+    "shortText": "Only print CJI when absolutely necessary.",
+    "longText": "Printed CJI must be physically secured, tracked, and disposed of properly. Use only authorized printers located in controlled areas. Retrieve printed pages immediately and never leave paperwork unattended.",
+    "section": "5.8 Media Protection / 5.9 Physical Protection"
+  },
+  {
+    "id": 34,
+    "title": "Use CJIS-Approved Encryption",
+    "shortText": "Encrypt CJI at rest and in transit with approved methods.",
+    "longText": "CJIS Security Policy mandates advanced encryption (FIPS 140-2 or 140-3 validated) for all CJI transmitted over public networks or stored on mobile devices. Never email or transfer CJI unencrypted.",
+    "section": "5.10 System Configuration / 5.13 Mobile Devices"
+  },
+  {
+    "id": 35,
+    "title": "Keep Work Areas Clear",
+    "shortText": "Never leave CJI visible on desks or walls.",
+    "longText": "A clean-desk policy supports CJIS requirements for physical protection and media handling. Secure all printed documents, removable media, and notes containing sensitive information when not in active use.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 36,
+    "title": "Avoid Plugging in Unknown USB Drives",
+    "shortText": "Do not connect unapproved USB or storage devices.",
+    "longText": "Removable media is a major malware infection vector. Only agency-issued, encrypted USB drives are permitted for CJI handling. Unknown devices should be surrendered to IT for inspection.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 37,
+    "title": "Verify Identity Before Sharing Information",
+    "shortText": "Ensure the requester is authorized before providing CJI.",
+    "longText": "CJIS access is limited to personnel with a demonstrated need-to-know. Always authenticate callers or requesters using agency procedures. Do not rely solely on caller ID or email names.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 38,
+    "title": "Follow Proper Disposal Procedures",
+    "shortText": "Never throw CJI in the trash—follow secure destruction rules.",
+    "longText": "CJI must be destroyed using methods such as shredding, pulping, burning, or approved digital sanitization. Disposal must be documented when required. Improper disposal is a CJIS violation.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 39,
+    "title": "Avoid Public Wi-Fi",
+    "shortText": "Never access CJI systems on public or guest networks.",
+    "longText": "Public Wi-Fi lacks required encryption and can expose traffic to interception. CJIS requires secure network boundaries and protected communication channels. Always use agency networks or approved VPN.",
+    "section": "5.10 System Configuration / 5.13 Mobile Devices"
+  },
+  {
+    "id": 40,
+    "title": "Use Agency-Approved VPN Only",
+    "shortText": "Do not use consumer VPNs or remote-desktop tools.",
+    "longText": "CJIS-compliant remote access requires agency-controlled VPN, auditing, and MFA. Consumer VPNs, remote desktop apps, or screen-sharing services bypass mandated safeguards and must not be used.",
+    "section": "5.10 Policy Area 10 – System Configuration"
+  },
+  {
+    "id": 41,
+    "title": "Log Out When Finished",
+    "shortText": "Always sign out of CJIS systems—not just close the window.",
+    "longText": "Closing the app or browser does not always end active sessions. Logging out ensures session tokens cannot be reused and supports CJIS auditing requirements.",
+    "section": "5.4 Policy Area 4 – Auditing and Accountability"
+  },
+  {
+    "id": 42,
+    "title": "Use Agency Email Only for CJI",
+    "shortText": "Never send CJI to or from personal email accounts.",
+    "longText": "Personal email lacks CJIS-compliant controls, logging, and encryption. Only agency-managed email systems may be used for transmitting CJI, and only when secured as required.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 43,
+    "title": "Do Not Share Screenshots of CJI",
+    "shortText": "Never capture or forward screenshots of sensitive data.",
+    "longText": "Screenshots containing CJI are treated as digital media and must follow strict handling, storage, and disposal rules. Sharing them via messaging, cloud apps, or personal devices violates CJIS policy.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 44,
+    "title": "Secure Your Mobile Device",
+    "shortText": "Use passcodes, biometrics, and lock settings.",
+    "longText": "CJIS requires mobile devices accessing CJI to enforce passcodes, screen lock timers, encryption, and remote wipe capabilities. Keep these controls active at all times.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 45,
+    "title": "Be Alert to Social Engineering",
+    "shortText": "Attackers may impersonate staff to gain access.",
+    "longText": "Never provide credentials, reset codes, or sensitive information just because someone claims to be a coworker or technician. Validate identity using official channels before assisting.",
+    "section": "5.5 Access Control / 5.3 Incident Response"
+  },
+  {
+    "id": 46,
+    "title": "Do Not Use Personal Cloud Storage",
+    "shortText": "Never upload documents with CJI to personal cloud accounts.",
+    "longText": "Services like iCloud, Google Drive, Dropbox, or OneDrive (personal accounts) are not CJIS-compliant. CJI must only be stored on approved, agency-managed systems with encryption, auditing, and access controls that meet CJIS requirements.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 47,
+    "title": "Check for HTTPS Before Entering Credentials",
+    "shortText": "Always confirm you’re on a secure site before logging in.",
+    "longText": "CJIS systems accessed through a browser must use encrypted HTTPS/TLS connections. If a site shows as 'Not Secure,' do not log in or continue. Report suspicious pages immediately.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 48,
+    "title": "Avoid Using Public Charging Ports",
+    "shortText": "Public USB charging stations are a security risk.",
+    "longText": "Attackers can install malware or extract data via compromised charging stations ('juice jacking'). Always use your own charger and a trusted power outlet when working with CJI-capable devices.",
+    "section": "5.13 Mobile Devices / 5.10 System Configuration"
+  },
+  {
+    "id": 49,
+    "title": "Secure Printed CJI in Locked Storage",
+    "shortText": "Always lock up printed or physical CJI.",
+    "longText": "CJIS requires physical protection of all media. Store printed CJI in locked cabinets, secure rooms, or other controlled spaces. Do not leave case files, printouts, or notes laying out in shared areas.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 50,
+    "title": "Review Your Access Annually",
+    "shortText": "Ensure your permissions still match your duties.",
+    "longText": "Agencies must conduct periodic access reviews to verify that users retain only necessary permissions. If your job role or responsibilities change, access should be updated immediately to maintain the principle of least privilege.",
+    "section": "5.5 Access Control / 5.6 Identification & Authentication"
+  },
+  {
+    "id": 51,
+    "title": "Use Only Agency-Approved Messaging Apps",
+    "shortText": "Never send CJI through texting or consumer chat apps.",
+    "longText": "Apps like SMS, iMessage, WhatsApp, Facebook Messenger, Signal, and others are not approved for CJI transmission unless specifically authorized by the agency and configured per CJIS Security Policy.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 52,
+    "title": "Be Cautious With Shared Workspaces",
+    "shortText": "Avoid viewing or discussing CJI around unauthorized personnel.",
+    "longText": "CJIS requires strict control over who may see or overhear CJI. Avoid discussing sensitive details in hallways, public spaces, or mixed offices. Only handle CJI in controlled areas.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 53,
+    "title": "Use Screen Privacy Filters When Required",
+    "shortText": "A privacy screen helps prevent shoulder-surfing.",
+    "longText": "Depending on the workspace, CJIS may require privacy filters for mobile devices or laptops to prevent unauthorized people from viewing CJI over your shoulder.",
+    "section": "5.9 Physical Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 54,
+    "title": "Avoid Installing Unapproved Software",
+    "shortText": "Do not download or install apps unless authorized.",
+    "longText": "Unauthorized apps can compromise system integrity or bypass CJIS-mandated controls. Only IT-approved and agency-configured applications may be installed on CJI-capable devices.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 55,
+    "title": "Check URLs for Spoofing",
+    "shortText": "Attackers often mimic official CJIS system websites.",
+    "longText": "Fake login pages are used to steal credentials. Always double-check spelling, domain names, and certificate information. Report suspicious websites immediately.",
+    "section": "5.3 Incident Response / 5.6 Identification & Authentication"
+  },
+  {
+    "id": 56,
+    "title": "Use Agency-Approved Remote Access Only",
+    "shortText": "Never use personal remote-desktop tools.",
+    "longText": "Tools like TeamViewer, Chrome Remote Desktop, or AnyDesk bypass logging and encryption requirements. Only use the agency’s CJIS-approved VPN, MFA, and remote-access solution.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 57,
+    "title": "Label CJI Properly",
+    "shortText": "Documents containing CJI must be clearly marked.",
+    "longText": "CJIS requires agencies to identify sensitive information. Mark printed or digital files that contain CJI to ensure proper handling, storage, and destruction.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 58,
+    "title": "Avoid Using Shared Accounts",
+    "shortText": "Each person must use their own login.",
+    "longText": "Shared accounts violate CJIS accountability rules. Every user must be uniquely identifiable so actions can be audited, investigated, and attributed.",
+    "section": "5.4 Auditing & Accountability / 5.6 Identification & Authentication"
+  },
+  {
+    "id": 59,
+    "title": "Review Audit Logs When Required",
+    "shortText": "Auditing helps detect suspicious activity.",
+    "longText": "CJIS mandates auditing of access, authentication, viewing, modification, and transmission of CJI. If your role includes reviewing logs, do so diligently—it is often the first step in detecting misuse.",
+    "section": "5.4 Policy Area 4 – Auditing and Accountability"
+  },
+  {
+    "id": 60,
+    "title": "Maintain Updated Contact Info",
+    "shortText": "Ensure your contact info is current for notifications.",
+    "longText": "Agencies must be able to reach users quickly during security events. Keep your phone number, email, and MFA recovery methods up-to-date to avoid access interruptions.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 61,
+    "title": "Never Share MFA Tokens or Codes",
+    "shortText": "Treat MFA codes like passwords.",
+    "longText": "Attackers frequently use social engineering to obtain MFA codes. Never share them with anyone—not coworkers, supervisors, or IT staff. Valid support teams will never ask for them.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 62,
+    "title": "Protect CJI During Transport",
+    "shortText": "Secure documents when traveling between facilities.",
+    "longText": "CJI must be transported in sealed containers or secure cases. Do not leave files in cars, visible in public, or accessible during travel. Follow agency procedures for transfer and accountability.",
+    "section": "5.8 Media Protection / 5.9 Physical Protection"
+  },
+  {
+    "id": 63,
+    "title": "Use Only Secure Disposal Bins",
+    "shortText": "Shred CJI using approved shred bins or devices.",
+    "longText": "Agencies often use locked shred bins or scheduled destruction services to dispose of CJI. Never use regular trash cans or recycling bins for any documents containing CJI.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 64,
+    "title": "Log Suspicious Activity Immediately",
+    "shortText": "If something feels off, report it.",
+    "longText": "CJIS requires immediate notification of possible breaches or suspicious access attempts. Whether you notice unusual behavior, system errors, or unknown login prompts—notify your security team.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 65,
+    "title": "Follow Password Change Requirements",
+    "shortText": "Change your password when required by policy.",
+    "longText": "CJIS requires timely password changes when compromise is suspected or mandated by policy. Use strong, unique passwords and update them as soon as the system instructs you.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 66,
+    "title": "Do Not Disable Antivirus or Endpoint Protection",
+    "shortText": "Keep security tools enabled at all times.",
+    "longText": "CJIS requires active malware protection on all systems that handle CJI. Never disable antivirus, EDR, or monitoring agents. If something interrupts your work, contact IT—do NOT turn protections off.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 67,
+    "title": "Report Lost or Stolen Devices Immediately",
+    "shortText": "Lost devices mean potential CJI exposure.",
+    "longText": "If a phone, tablet, laptop, or removable media that may contain or access CJI is lost, stolen, or misplaced, always report it immediately so remote lock/wipe and incident response can begin.",
+    "section": "5.3 Incident Response / 5.13 Mobile Devices"
+  },
+  {
+    "id": 68,
+    "title": "Use Only Agency-Approved Wireless Networks",
+    "shortText": "Never access CJI over public Wi-Fi.",
+    "longText": "CJIS prohibits connecting to unknown or unencrypted Wi-Fi networks when accessing or transmitting CJI. Always use agency-approved networks with encryption and proper authentication.",
+    "section": "5.13 Mobile Devices / 5.10 System Configuration"
+  },
+  {
+    "id": 69,
+    "title": "Log Off Shared or Public Computers",
+    "shortText": "Always sign out when leaving a shared device.",
+    "longText": "If you must use a shared terminal, log out completely when finished. Leaving an active session open violates auditing and accountability requirements and can expose CJI to unauthorized users.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 70,
+    "title": "Avoid Printing CJI Unless Necessary",
+    "shortText": "Print only what you absolutely must.",
+    "longText": "Printed CJI increases both storage and disposal risk. Only print when operationally necessary, retrieve printouts immediately, and secure them in accordance with physical protection requirements.",
+    "section": "5.8 Media Protection / 5.9 Physical Protection"
+  },
+  {
+    "id": 71,
+    "title": "Verify Identity Before Sharing Information",
+    "shortText": "Confirm who you're speaking with before discussing CJI.",
+    "longText": "Impersonation attacks are increasingly common. Always confirm the identity of coworkers, IT staff, or partner agencies before sharing sensitive information or granting access.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 72,
+    "title": "Avoid Using Personal Devices for CJI",
+    "shortText": "Use only agency-managed devices.",
+    "longText": "Personal devices typically lack CJIS-required controls such as auditing, mobile device management, approved encryption, and configuration baselines. Only use officially managed equipment for CJI.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 73,
+    "title": "Encrypt Data in Transit",
+    "shortText": "Always use secure encrypted channels.",
+    "longText": "CJIS mandates encryption when transmitting CJI outside of a physically secure location. Ensure all email, file transfer, and remote access uses TLS or other approved encryption.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 74,
+    "title": "Do Not Bypass Web Filters",
+    "shortText": "Security filters are required protections.",
+    "longText": "Browser filters block dangerous or non-compliant sites. Attempting to circumvent them violates CJIS policy and increases exposure to malware, phishing, and data exfiltration.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 75,
+    "title": "Confirm Partner Agencies Are CJIS-Compliant",
+    "shortText": "Only share CJI with authorized compliant partners.",
+    "longText": "Before sending or receiving CJI with another agency, ensure they meet CJIS security requirements. Unauthorized sharing violates federal standards and can result in penalties.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 76,
+    "title": "Maintain Updated Software",
+    "shortText": "Keep systems patched to reduce vulnerabilities.",
+    "longText": "CJIS requires timely installation of security patches and system updates. Outdated software is a major vector for attacks. Never delay updates unless directed by IT.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 77,
+    "title": "Use Strong, Complex Passwords",
+    "shortText": "Passwords must be resistant to guessing.",
+    "longText": "Avoid dictionary words, personal information, or simple patterns. Follow CJIS requirements for minimum length, complexity, and lockout settings. Use passphrases whenever permitted.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 78,
+    "title": "Be Cautious With Unknown USB Devices",
+    "shortText": "Never plug in random or unknown USB drives.",
+    "longText": "Attackers often use USB devices to deliver malware or steal data. Only use agency-issued and approved removable media. Immediately report any suspicious device.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 79,
+    "title": "Physically Secure Your Badge",
+    "shortText": "Treat your access badge like a key.",
+    "longText": "Your badge grants physical access to secure areas where CJI may be stored or processed. Never lend it out or leave it unattended. Report lost or stolen badges immediately.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 80,
+    "title": "Avoid Copying CJI to Notes Apps",
+    "shortText": "Do not store sensitive info in personal notes.",
+    "longText": "Notes apps (Apple Notes, Samsung Notes, Notepad, Google Keep, etc.) are not approved CJI storage locations. Only use authorized systems that meet CJIS encryption and auditing requirements.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 81,
+    "title": "Close Browser Tabs After Use",
+    "shortText": "Don’t leave CJIS portals open in a browser.",
+    "longText": "Leaving tabs open risks unauthorized viewing, session hijacking, or cached data exposure. Always log out and close browser windows after accessing CJI systems.",
+    "section": "5.4 Auditing & Accountability / 5.10 System Configuration"
+  },
+  {
+    "id": 82,
+    "title": "Protect Stored Photos and Screenshots",
+    "shortText": "Never store CJI in your camera roll.",
+    "longText": "Photos containing CJI must not be saved on personal or unmanaged devices. Even agency devices must follow strict storage, deletion, and encryption requirements.",
+    "section": "5.8 Media Protection / 5.13 Mobile Devices"
+  },
+  {
+    "id": 83,
+    "title": "Use Secure Conference Tools",
+    "shortText": "Only use approved platforms for virtual meetings involving CJI.",
+    "longText": "Zoom, Teams, or similar tools must be agency-configured to meet CJIS requirements. Never discuss CJI using personal or unapproved meeting tools.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 84,
+    "title": "Do Not Leave Terminals Unattended",
+    "shortText": "Stay with your device when CJI is accessible.",
+    "longText": "Unattended devices expose CJI to unauthorized individuals and violate CJIS physical protection rules. Lock your screen whenever stepping away—even briefly.",
+    "section": "5.9 Physical Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 85,
+    "title": "Respect Sensitive Compartments Within Systems",
+    "shortText": "Only access case files that you are authorized to view.",
+    "longText": "CJIS requires agencies to enforce role-based compartmentalization of data. Accessing information beyond your need-to-know violates both CJIS and agency policy.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 86,
+    "title": "Never Store CJI in Email Drafts",
+    "shortText": "Draft folders are not secure CJI storage.",
+    "longText": "Email draft folders often sync to multiple devices and cloud storage locations. CJIS prohibits storing CJI in unencrypted or non-audited systems, including drafts. Type sensitive information only when you are prepared to send it through an approved encrypted method.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 87,
+    "title": "Always Use Agency-Approved VPN",
+    "shortText": "Access CJI systems only through secure remote connections.",
+    "longText": "When working remotely, CJIS requires the use of encrypted, agency-managed VPN connections with FIPS-validated cryptography. Public, home, or cellular connections alone are not sufficient without the VPN in place.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 88,
+    "title": "Avoid Using Browser Autofill for Credentials",
+    "shortText": "Do not save CJIS credentials in browsers.",
+    "longText": "Browser password managers store credentials locally and often sync across devices, which may violate CJIS authentication and auditing requirements. Always enter CJIS credentials manually or use approved password management systems.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 89,
+    "title": "Use Bookmarks for CJIS Portals",
+    "shortText": "Avoid mistyping URLs that could lead to phishing sites.",
+    "longText": "Manually typing URLs increases the risk of landing on look-alike phishing pages. Bookmark official CJIS systems and agency portals to ensure you always access trusted, verified URLs.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 90,
+    "title": "Secure Radios and Dispatch Consoles",
+    "shortText": "Treat radio access as sensitive equipment.",
+    "longText": "Radio consoles and dispatch terminals often provide access to operational CJI. Ensure they are locked when not in use, follow authentication procedures, and prevent unauthorized personnel from viewing or hearing sensitive traffic.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 91,
+    "title": "Shred All CJI Printouts",
+    "shortText": "Use cross-cut shredders for disposal.",
+    "longText": "CJIS requires secure disposal of CJI. Printed materials must be destroyed using approved cross-cut shredders or secure destruction services. Never throw CJI printouts into normal trash or recycling.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 92,
+    "title": "Log Out of Mapping and CAD Systems",
+    "shortText": "CAD and RMS contain sensitive data too.",
+    "longText": "Computer Aided Dispatch (CAD) and Records Management Systems (RMS) store CJI and must be protected. Log out when not actively using them and ensure your screen is locked during breaks.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 93,
+    "title": "Validate Fax Numbers Before Sending CJI",
+    "shortText": "Double-check fax recipients for accuracy.",
+    "longText": "Sending CJI to an incorrect fax number is a reportable breach. Always verify numbers via official directories and confirm that receiving devices are in secure, controlled environments.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 94,
+    "title": "Wear Visitor Badges in Secure Areas",
+    "shortText": "Visitors require proper identification.",
+    "longText": "Anyone who is not fully CJIS-certified must be properly identified and escorted. Visitor badges help staff quickly identify who needs an escort and who is not authorized to access certain areas.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 95,
+    "title": "Don’t Use AI Tools for CJI",
+    "shortText": "Never input real CJI into AI or cloud assistants.",
+    "longText": "Most public AI platforms do not meet CJIS requirements for data handling, auditing, storage, and encryption. Do not upload or paste any CJI into AI tools unless the system has been formally approved.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 96,
+    "title": "Report Suspicious Emails Immediately",
+    "shortText": "Phishing is one of the top threats to CJI.",
+    "longText": "Unsolicited, unexpected, or unusual emails may be attempts to compromise CJIS systems. Do not open attachments or click links. Immediately notify your security or IT team.",
+    "section": "5.3 Incident Response / 5.10 System Configuration"
+  },
+  {
+    "id": 97,
+    "title": "Check for HTTPS Before Logging In",
+    "shortText": "Encrypted websites protect your credentials.",
+    "longText": "Before entering credentials into any portal containing CJI, ensure the site uses HTTPS with a valid certificate. A missing padlock icon is a red flag for phishing or insecure configurations.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 98,
+    "title": "Physically Lock Rooms Containing CJI",
+    "shortText": "Rooms with CJI systems require controlled access.",
+    "longText": "CJIS requires that areas with CJI—servers, dispatch terminals, RMS stations—remain locked or continuously monitored. Never leave secure areas unattended or propped open.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 99,
+    "title": "Store Mobile Devices Securely",
+    "shortText": "Keep agency phones and tablets locked away.",
+    "longText": "When not in use, mobile devices with access to CJI must be secured in locked drawers, cabinets, or rooms. This prevents theft and accidental exposure.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 100,
+    "title": "Never Email CJI to Personal Accounts",
+    "shortText": "Personal email is not CJIS-compliant.",
+    "longText": "Forwarding CJI to Gmail, Yahoo, Outlook.com, or any personal email service violates CJIS encryption, auditing, and storage requirements. Only use agency-approved messaging systems.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 101,
+    "title": "Do Not Use Personal Cloud Storage",
+    "shortText": "Never store CJI in iCloud, Dropbox, Google Drive, etc.",
+    "longText": "Personal cloud services lack mandatory CJIS controls like FIPS-validated encryption, auditing, and controlled access. Use only agency-approved secure storage solutions.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 102,
+    "title": "Follow Agency Backup Procedures",
+    "shortText": "Backups must meet CJIS security standards.",
+    "longText": "Only authorized IT staff should manage backups of systems containing CJI. Backups must be encrypted, physically protected, and tested regularly to ensure recoverability.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 103,
+    "title": "Be Cautious With Portable Hard Drives",
+    "shortText": "External drives must be encrypted.",
+    "longText": "If portable drives are required for legitimate operational needs, they must use FIPS 140-2 validated encryption. Unencrypted drives can result in unauthorized disclosure if lost or stolen.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 104,
+    "title": "Use Secure Messaging for Dispatch Traffic",
+    "shortText": "Texting CJI must be done through approved apps only.",
+    "longText": "Dispatch messages containing CJI must be sent only through agency-approved, encrypted messaging platforms. Personal SMS, iMessage, or other consumer apps are not permitted.",
+    "section": "5.10 System Configuration / 5.8 Media Protection"
+  },
+  {
+    "id": 105,
+    "title": "Review Access Lists Regularly",
+    "shortText": "Make sure only authorized personnel retain access.",
+    "longText": "CJIS requires periodic review of user access rights. Staff who change roles, retire, or transfer should have access removed immediately. Regular audits ensure compliance and reduce risk.",
+    "section": "AC-2 Account Management"
+  },
+  {
+    "id": 106,
+    "title": "Do Not Leave CJI Visible in Vehicles",
+    "shortText": "Never store printed CJI in your car.",
+    "longText": "CJIS prohibits leaving paper CJI or mobile devices containing CJI unattended in vehicles, even if doors are locked. Cars are not secure facilities and can be easily broken into. Always bring materials with you or return them to a secure area.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 107,
+    "title": "Beware of Tailgating Into Secure Areas",
+    "shortText": "Ensure people badge in individually.",
+    "longText": "Unauthorized individuals may attempt to follow employees into secured spaces without badging. Politely ask unknown persons to badge in or contact security. Physical access control is a required CJIS safeguard.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 108,
+    "title": "Use Approved Removable Media Only",
+    "shortText": "Do not use personal USB drives for CJI.",
+    "longText": "Removable media must meet strict CJIS encryption, auditing, and protection standards. Only use agency-issued, encrypted media for storing or transferring CJI. Personal or unidentified drives pose major security risks.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 109,
+    "title": "Keep Server Rooms Locked",
+    "shortText": "Access to infrastructure must be restricted.",
+    "longText": "Areas containing switches, servers, CJIS routers, or authentication equipment must remain locked and monitored. Only authorized personnel should enter, and access should be logged according to policy.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 110,
+    "title": "Verify Faxed CJI Was Received Securely",
+    "shortText": "Follow up on important fax transmissions.",
+    "longText": "After sending CJI via fax, confirm that the intended authorized recipient received it and that the fax machine is located in a secure location. Misrouted faxes are a common breach source.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 111,
+    "title": "Lock Mobile Devices Immediately",
+    "shortText": "Do not leave agency phones unlocked.",
+    "longText": "Smartphones and tablets must lock automatically after a short period. If you step away, lock the device manually. Mobile devices often contain cached or synced CJI that must be protected at all times.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 112,
+    "title": "Avoid Discussing CJI in Public",
+    "shortText": "Conversations can be overheard easily.",
+    "longText": "Restaurants, hallways, elevators, and public areas are not appropriate places to discuss cases or sensitive criminal justice details. Keep all CJI conversations within controlled environments.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 113,
+    "title": "Secure CJIS Login Tokens",
+    "shortText": "Treat authentication tokens like passwords.",
+    "longText": "Hardware tokens, smartcards, and authentication keys must remain in your possession at all times. Do not lend them to coworkers or leave them behind on desks or in vehicles.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 114,
+    "title": "Do Not Reuse Personal Passwords",
+    "shortText": "CJIS credentials must be unique.",
+    "longText": "Using the same password for CJIS systems and personal accounts increases risk of credential theft. Follow agency requirements to maintain unique, strong, and secure passwords.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 115,
+    "title": "Follow Chain-of-Custody Procedures for Digital Media",
+    "shortText": "Evidence and CJI must be tracked at all times.",
+    "longText": "When handling digital media containing CJI or evidence, document transfers, storage locations, and custodians. Proper chain-of-custody prevents legal and security issues.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 116,
+    "title": "Do Not Install Browser Extensions",
+    "shortText": "Extensions can leak or collect sensitive data.",
+    "longText": "Many browser extensions have broad permissions that can read keystrokes, capture screen content, or monitor browsing. Install extensions only if explicitly approved by IT and necessary for your role.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 117,
+    "title": "Use Two-Person Integrity When Required",
+    "shortText": "Some CJIS tasks require dual authorization.",
+    "longText": "Certain sensitive operations—such as system reconfiguration or data destruction—may require two authorized personnel present. Follow agency procedures to maintain integrity and accountability.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 118,
+    "title": "Never Leave Keys in Secure Areas",
+    "shortText": "Protect keys to evidence rooms and secure storage.",
+    "longText": "Physical keys controlling access to CJI must be closely protected. Leaving keys unattended can lead to unauthorized entry and compromise of sensitive data or evidence.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 119,
+    "title": "Beware of Fake Tech Support Calls",
+    "shortText": "Attackers impersonate IT personnel.",
+    "longText": "If someone claiming to be IT requests remote access, passwords, or MFA codes, verify their identity through official channels. Real IT staff will not ask for sensitive info through unsolicited contact.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 120,
+    "title": "Use Approved Methods for File Transfers",
+    "shortText": "CJI cannot be sent through unapproved file-sharing services.",
+    "longText": "Tools like personal Dropbox, Google Drive, and consumer file-transfer apps are not CJIS-compliant. Use only agency-approved encrypted file transfer systems or secure-sharing platforms.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 121,
+    "title": "Follow Access Revocation Procedures",
+    "shortText": "Access must be removed when no longer needed.",
+    "longText": "CJIS requires timely revocation of access for personnel who retire, transfer, or change duties. Immediately report role changes so access rights can be updated to maintain compliance.",
+    "section": "AC-2 Account Management"
+  },
+  {
+    "id": 122,
+    "title": "Do Not Prop Open Secure Doors",
+    "shortText": "Always keep secure areas properly closed.",
+    "longText": "Propping open controlled-access doors defeats security controls designed to protect CJI. Even during loading or unloading, maintain physical access controls.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 123,
+    "title": "Avoid Using Third-Party Camera Apps",
+    "shortText": "Only approved camera applications may capture CJI.",
+    "longText": "Third-party camera apps may sync photos automatically to cloud services or lack proper encryption. Use only agency-approved devices and applications when capturing images containing CJI.",
+    "section": "5.13 Mobile Devices / 5.8 Media Protection"
+  },
+  {
+    "id": 124,
+    "title": "Follow Retention Schedules for Media",
+    "shortText": "CJI must be retained only as long as required.",
+    "longText": "Each agency has defined retention periods for documents, recordings, and evidence. Holding CJI longer than necessary increases risk and violates CJIS guidelines.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 125,
+    "title": "Do Not Leave Case Files on Conference Tables",
+    "shortText": "Clear rooms of CJI after meetings.",
+    "longText": "Whether using printed reports, photos, or digital devices, all CJI must be secured after meetings. Never leave sensitive material behind in common areas or conference rooms.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 126,
+    "title": "Keep Devices Updated Automatically",
+    "shortText": "Enable automatic updates when allowed.",
+    "longText": "CJIS requires timely installation of security patches. Automatic updates help ensure devices remain secure. Never postpone updates indefinitely; if an update prevents work, notify IT rather than disabling update services.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 127,
+    "title": "Use Only Approved Bluetooth Devices",
+    "shortText": "Bluetooth accessories must be authorized.",
+    "longText": "Unapproved Bluetooth accessories—keyboards, headsets, or speakers—may transmit data insecurely. Only use agency-approved Bluetooth devices when accessing or handling CJI.",
+    "section": "5.13 Mobile Devices / 5.10 System Configuration"
+  },
+  {
+    "id": 128,
+    "title": "Be Aware of People Watching During Logins",
+    "shortText": "Shield your screen when entering passwords.",
+    "longText": "Shoulder surfing is a simple and effective way attackers steal credentials. Always position screens to reduce visibility and cover your keyboard or device while typing sensitive information.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 129,
+    "title": "Keep Network Ports Covered",
+    "shortText": "Unused ports must be secured or disabled.",
+    "longText": "Open Ethernet or network ports can allow unauthorized devices to connect to secure networks. Notify IT if you find unlocked or exposed ports in secure areas.",
+    "section": "5.10 System Configuration / 5.9 Physical Protection"
+  },
+  {
+    "id": 130,
+    "title": "Report System Glitches or Strange Behavior",
+    "shortText": "Even small errors can indicate compromise.",
+    "longText": "Unusual pop-ups, slowdowns, or login failures may signal malware or unauthorized access. Report anomalies immediately so IT can investigate—do not ignore them.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 131,
+    "title": "Secure Whiteboards with Sensitive Information",
+    "shortText": "Erase or cover whiteboards after discussions.",
+    "longText": "Whiteboards used for case discussions, diagrams, or sensitive notes must be erased before leaving the room. Pictures of whiteboards containing CJI must never be taken unless approved.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 132,
+    "title": "Do Not Leave Laptops Charging in Public Areas",
+    "shortText": "Unattended charging laptops can expose CJI.",
+    "longText": "Laptops with access to CJI—even if locked—must not be left charging or sitting unattended in public spaces. Always keep them within view or secure them in a locked area.",
+    "section": "5.9 Physical Protection / 5.13 Mobile Devices"
+  },
+  {
+    "id": 133,
+    "title": "Use Only Approved Browsers",
+    "shortText": "Not all browsers meet CJIS requirements.",
+    "longText": "Some browsers lack the security controls needed for CJIS compliance. Use only the browsers explicitly approved by your agency to ensure encryption, auditing, and security settings are enforced.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 134,
+    "title": "Always Identify Visitors in CJIS Areas",
+    "shortText": "Challenge unknown people politely.",
+    "longText": "If you see someone in a controlled area without proper credentials or escort, verify their identity. CJIS requires that unauthorized personnel be denied access to areas where CJI is stored or viewed.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 135,
+    "title": "Avoid Storing CJI Temporarily on Desktops",
+    "shortText": "Do not save CJI files to your desktop or downloads.",
+    "longText": "Local folders like 'Desktop' or 'Downloads' lack proper encryption and often sync to cloud backups. Save CJI only in authorized, encrypted agency storage locations.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 136,
+    "title": "Avoid Reusing USB Devices Across Systems",
+    "shortText": "Cross-system use increases contamination risks.",
+    "longText": "USB drives used on personal, home, or non-agency systems may carry malware. Never connect external devices used on untrusted systems to CJIS-connected devices.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 137,
+    "title": "Follow Laptop Travel Procedures",
+    "shortText": "CJI-capable laptops require secure transport.",
+    "longText": "When transporting laptops that can access or store CJI, use lockable cases and keep the device with you at all times. Never place them in checked luggage or leave them unattended in vehicles.",
+    "section": "5.13 Mobile Devices / 5.9 Physical Protection"
+  },
+  {
+    "id": 138,
+    "title": "Check for Security Seals on Media",
+    "shortText": "Tamper-evident seals protect CJI transfers.",
+    "longText": "When using physical media for evidence or CJI transfer, ensure tamper-evident seals are intact. Report any broken or missing seals to a supervisor immediately.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 139,
+    "title": "Never Screenshot CJI from System Interfaces",
+    "shortText": "Screenshots create untracked sensitive media.",
+    "longText": "Screenshots automatically save to local or cloud storage and often bypass audit controls. Avoid screenshots entirely unless explicitly allowed by formal policy and stored securely.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 140,
+    "title": "Report Unauthorized Physical Access Attempts",
+    "shortText": "Even harmless attempts must be documented.",
+    "longText": "If someone attempts to enter a secure area without proper authorization—intentionally or accidentally—report it immediately so the incident can be logged and investigated.",
+    "section": "5.3 Incident Response / 5.9 Physical Protection"
+  },
+  {
+    "id": 141,
+    "title": "Secure Your Workspace at the End of Each Day",
+    "shortText": "A clean workspace protects sensitive material.",
+    "longText": "At the end of your shift, remove or secure any printed documents, notes, removable media, or devices. Daily cleanup supports CJIS physical protection and media safeguarding requirements.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 142,
+    "title": "Lock Your Computer Automatically",
+    "shortText": "Enable automatic screen locking.",
+    "longText": "CJIS requires automatic locking of workstations after a period of inactivity. Never disable this feature. If your system does not lock automatically, report it to IT immediately.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 143,
+    "title": "Avoid Using Public Printers or Copiers",
+    "shortText": "Only use approved devices for printing CJI.",
+    "longText": "Public printers and non-agency copiers may store image data and are not protected by CJIS-required security controls. Only print CJI using authorized agency-managed printers.",
+    "section": "5.8 Media Protection / 5.9 Physical Protection"
+  },
+  {
+    "id": 144,
+    "title": "Keep Mobile Hotspots Secure",
+    "shortText": "Hotspots must use strong passwords and encryption.",
+    "longText": "If authorized to use a mobile hotspot, ensure the SSID is hidden when possible, uses WPA3 or WPA2 encryption, and has a strong unique password. Unauthorized users must never connect.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 145,
+    "title": "Verify Caller Authorization Before Sharing CJI",
+    "shortText": "Phone-based social engineering is increasing.",
+    "longText": "Before sharing CJI over the phone, ensure the caller is authenticated using agency protocols. Caller ID is unreliable and easily spoofed. Always follow need-to-know validation steps.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 146,
+    "title": "Avoid Using Forgotten or Old Accounts",
+    "shortText": "Legacy accounts pose security risks.",
+    "longText": "Old or unused accounts often lack strong monitoring and may not meet current CJIS policy requirements. If you encounter unused accounts, report them so they can be reviewed or disabled.",
+    "section": "AC-2 Account Management"
+  },
+  {
+    "id": 147,
+    "title": "Do Not Share Device Unlock Codes",
+    "shortText": "Keep PINs and passcodes private.",
+    "longText": "Device unlock patterns, PINs, and passcodes must not be shared. CJIS requires that authentication methods remain under the sole control of the authorized user.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 148,
+    "title": "Check for Security Patches Before Using New Software",
+    "shortText": "Ensure new applications are fully updated.",
+    "longText": "Even agency-approved software must be patched to eliminate vulnerabilities. Before first use, verify that all required updates are installed and automatic updates are enabled.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 149,
+    "title": "Use Strong Device Encryption",
+    "shortText": "Encryption protects lost or stolen devices.",
+    "longText": "CJIS requires FIPS 140-2 validated encryption for devices containing or accessing CJI. Never disable encryption, and report any device that appears unencrypted.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 150,
+    "title": "Maintain Secure Work Habits in Remote Locations",
+    "shortText": "Even at home, CJI must stay protected.",
+    "longText": "Do not leave CJI-visible screens exposed to family members, guests, or roommates. Secure your workspace and follow all physical and digital safeguards.",
+    "section": "5.13 Mobile Devices / 5.9 Physical Protection"
+  },
+  {
+    "id": 151,
+    "title": "Never Upload CJI to Non-Agency Email Apps",
+    "shortText": "Avoid third-party email clients.",
+    "longText": "Personal or unapproved email apps may sync messages to cloud servers outside CJIS compliance. Only send or receive CJI through authorized, agency-managed email applications.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 152,
+    "title": "Limit Information Shared in Voicemail",
+    "shortText": "Voicemail is not a secure channel.",
+    "longText": "Never leave CJI or case details in voicemail messages. If needed, leave a callback number and request the recipient return the call through official channels.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 153,
+    "title": "Be Careful with Auto-Print or Auto-Sync Settings",
+    "shortText": "Disable automatic forwarding or syncing.",
+    "longText": "Automatic print queues, folder syncs, or auto-forward rules may accidentally expose CJI. Check your settings regularly and disable any that aren’t authorized.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 154,
+    "title": "Avoid Using Split-Screen for CJI",
+    "shortText": "Keep CJI windows isolated.",
+    "longText": "Using split-screen features with non-secure apps may lead to accidental screen exposure. Keep CJI applications full-screen or in dedicated secure workspaces.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 155,
+    "title": "Do Not Allow Others to 'Borrow' Your Login Session",
+    "shortText": "Every user must authenticate individually.",
+    "longText": "Allowing others to work under your logged-in session violates auditing, access control, and accountability requirements. Everyone must use their own credentials.",
+    "section": "5.4 Auditing & Accountability / 5.5 Access Control"
+  },
+  {
+    "id": 156,
+    "title": "Validate Network Connections Regularly",
+    "shortText": "Ensure you're connected to the correct Wi-Fi.",
+    "longText": "Attackers may create look-alike SSIDs to trick users. Always verify you're connected to an approved, agency-managed network before accessing CJIS systems.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 157,
+    "title": "Securely Remove Unauthorized Apps from Devices",
+    "shortText": "Only approved applications are allowed.",
+    "longText": "Personal apps can store data, track activity, or sync information. Remove any unapproved app from CJIS-used devices and notify IT if you are unsure.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 158,
+    "title": "Position Screens Away from Public View",
+    "shortText": "Avoid accidental disclosure.",
+    "longText": "Screens displaying CJI must be positioned to prevent unauthorized individuals from viewing sensitive information. Use privacy screens when necessary.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 159,
+    "title": "Do Not Use Quick-Share Features",
+    "shortText": "Disable AirDrop and similar tools.",
+    "longText": "AirDrop, Nearby Share, and similar tools may accidentally share files with unintended recipients. Disable such features unless explicitly approved and configured securely.",
+    "section": "5.13 Mobile Devices / 5.8 Media Protection"
+  },
+  {
+    "id": 160,
+    "title": "Review Logs for Assigned Systems",
+    "shortText": "Auditing supports CJIS compliance.",
+    "longText": "If your role includes system oversight, regularly review audit logs for suspicious access or anomalies. Reporting unusual entries helps protect systems from compromise.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 161,
+    "title": "Ensure Mobile Device Backups Are Encrypted",
+    "shortText": "Backups must meet encryption standards.",
+    "longText": "Mobile device backups must use encrypted, agency-approved methods. Personal cloud backups are not allowed and may leak sensitive information.",
+    "section": "5.13 Mobile Devices / 5.8 Media Protection"
+  },
+  {
+    "id": 162,
+    "title": "Do Not Use Third-Party Keyboards",
+    "shortText": "Keyboard apps can capture keystrokes.",
+    "longText": "Third-party keyboard apps may record input or sync typed data to external servers. Use only default or agency-approved keyboards for devices accessing CJI.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 163,
+    "title": "Always Verify File Attachments Before Opening",
+    "shortText": "Unknown attachments often contain malware.",
+    "longText": "Do not open attachments unless you trust the sender and expected the file. Even internal-looking messages may be spoofed. When unsure, report it to IT.",
+    "section": "5.3 Incident Response / 5.10 System Configuration"
+  },
+  {
+    "id": 164,
+    "title": "Secure Portable Evidence Recorders",
+    "shortText": "Body cameras and recorders contain sensitive data.",
+    "longText": "Store body-worn cameras, audio recorders, and digital evidence devices in secure locations. Follow upload and storage procedures carefully to maintain CJIS compliance.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 165,
+    "title": "Avoid Using Public Charging Stations",
+    "shortText": "Public USB charging can lead to data theft.",
+    "longText": "Attackers may modify public charging stations to exfiltrate data. Charge CJIS-capable devices only using approved chargers or agency-owned power equipment.",
+    "section": "5.13 Mobile Devices / 5.10 System Configuration"
+  },
+  {
+    "id": 166,
+    "title": "Use Only Approved Remote Access Tools",
+    "shortText": "Unauthorized remote tools violate CJIS.",
+    "longText": "Do not use remote desktop programs like TeamViewer, AnyDesk, or personal screen-sharing apps to access CJIS systems. Only agency-approved remote access platforms with encryption and auditing are authorized.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 167,
+    "title": "Avoid Storing CJI in Browser Downloads",
+    "shortText": "Browser download folders are not secure.",
+    "longText": "Files saved to browser download folders may sync to cloud services or remain unencrypted. Save CJI only to authorized, protected storage locations specified by your agency.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 168,
+    "title": "Use Privacy Screens on Laptops",
+    "shortText": "Blocks unauthorized viewing.",
+    "longText": "Privacy screen filters help reduce the chance of someone observing CJI on your screen, especially in shared spaces. They reinforce CJIS physical protection requirements.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 169,
+    "title": "Keep Audio Devices Secure",
+    "shortText": "Headsets and mics may capture CJI.",
+    "longText": "Do not leave headsets, microphones, or conference equipment plugged in or unattended in secure areas. These devices can accidentally capture or leak sensitive information.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 170,
+    "title": "Avoid Personal Hotspots Unless Authorized",
+    "shortText": "Only use secure network options.",
+    "longText": "Personal hotspots often lack enterprise-grade encryption and monitoring. Use them only if explicitly authorized and configured according to CJIS guidelines.",
+    "section": "5.10 System Configuration / 5.13 Mobile Devices"
+  },
+  {
+    "id": 171,
+    "title": "Follow Multi-Factor Authentication Rules",
+    "shortText": "MFA must be used whenever required.",
+    "longText": "CJIS requires MFA for remote access and certain privileged operations. Do not disable MFA prompts, store MFA codes, or approve login requests you did not initiate.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 172,
+    "title": "Keep CJIS Documents Away From Cameras",
+    "shortText": "Cameras can unintentionally record sensitive data.",
+    "longText": "Avoid placing printed reports or screens containing CJI in view of surveillance cameras, webcams, or video conferencing systems unless explicitly approved.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 173,
+    "title": "Minimize Use of Personal Notes",
+    "shortText": "Handwritten notes may contain CJI.",
+    "longText": "If you must take physical notes related to CJI, secure them like any other sensitive record. Do not store CJI on sticky notes, notebooks, or unprotected paper.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 174,
+    "title": "Keep Printers in Secure Locations",
+    "shortText": "CJI output must be protected.",
+    "longText": "Printers that may output CJI must be located in controlled areas where unauthorized individuals cannot view or retrieve printed documents.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 175,
+    "title": "Check for Locked Filing Cabinets",
+    "shortText": "Physical documents must be secured.",
+    "longText": "Any filing cabinet or binder containing CJI must be locked when not in use. If a cabinet is left unlocked, secure it immediately and notify a supervisor if needed.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 176,
+    "title": "Do Not Use Social Media for Work Communication",
+    "shortText": "Social platforms are not CJIS-compliant.",
+    "longText": "Never share case details, operational plans, or CJI through Facebook, Instagram, Messenger, WhatsApp, or any social platform. These tools lack required CJIS protections.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 177,
+    "title": "Be Cautious When Working Outdoors",
+    "shortText": "Screens may be visible to bystanders.",
+    "longText": "If working outside (crime scenes, vehicles, field locations), ensure screens displaying CJI are shielded from public view. Use screen privacy or position yourself strategically.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 178,
+    "title": "Do Not Store CJI on Shared Drives Without Controls",
+    "shortText": "Shared folders must enforce access restrictions.",
+    "longText": "Only place CJI in shared drives that enforce permissions, logging, and encryption. Public or open-access directories are prohibited for CJI storage.",
+    "section": "5.5 Access Control / 5.8 Media Protection"
+  },
+  {
+    "id": 179,
+    "title": "Disable Personal Voice Assistants",
+    "shortText": "Siri, Alexa, and others may record audio.",
+    "longText": "Voice assistants can activate unintentionally and record sensitive conversations. Disable them on any device used near CJI unless specifically approved by policy.",
+    "section": "5.13 Mobile Devices / 5.9 Physical Protection"
+  },
+  {
+    "id": 180,
+    "title": "Follow Secure Disposal for Digital Media",
+    "shortText": "Old drives must be wiped properly.",
+    "longText": "Digital media containing CJI must be destroyed or sanitized using approved methods such as degaussing, shredding, or certified wipe tools. Normal deletion is insufficient.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 181,
+    "title": "Avoid Leaving CJI Visible on Display Boards",
+    "shortText": "Erase boards promptly after meetings.",
+    "longText": "Dry-erase boards, magnetic boards, and case boards must be cleared after use. Photos of boards containing CJI are restricted unless approved as part of evidence handling.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 182,
+    "title": "Use Secure Methods for Password Recovery",
+    "shortText": "Avoid insecure recovery practices.",
+    "longText": "Do not store password hints or recovery answers in insecure places. CJIS requires secure handling of authentication information, especially for privileged accounts.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 183,
+    "title": "Never Leave Evidence Uploads Unattended",
+    "shortText": "Stay present while files are transferring.",
+    "longText": "When uploading CJI or evidence to secure systems, remain at the workstation until the upload finishes to prevent tampering or accidental exposure.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 184,
+    "title": "Do Not Mix Personal and Work Tabs",
+    "shortText": "Separate CJIS systems from personal browsing.",
+    "longText": "Personal tabs, social media, or entertainment sites should not be open while accessing CJI. Cross-site scripts and tracking tools may capture data inadvertently.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 185,
+    "title": "Use Secure Approved Methods for Audio Transcription",
+    "shortText": "Transcription tools must meet CJIS standards.",
+    "longText": "AI transcription tools, mobile apps, and online services may upload audio to third-party servers. Only use agency-approved CJIS-compliant transcription solutions for interviews or recordings.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 186,
+    "title": "Do Not Use Personal Email to Reset Work Passwords",
+    "shortText": "Password recovery must stay within CJIS controls.",
+    "longText": "Using personal email for account recovery violates CJIS authentication requirements. Recovery steps must occur only through agency-managed, secure systems to prevent unauthorized access.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 187,
+    "title": "Avoid Leaving Sensitive Tabs Open During Calls",
+    "shortText": "Video calls may capture your screen.",
+    "longText": "During video meetings, ensure that any tabs or applications displaying CJI are closed. Accidental screen shares are a common cause of unintentional data exposure.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 188,
+    "title": "Secure Your Desk Before Visitors Enter",
+    "shortText": "Hide sensitive materials before meetings.",
+    "longText": "When hosting visitors—technicians, auditors, community members—ensure all CJI, printed materials, or open systems are secured or covered. Visitors must not view CJI.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 189,
+    "title": "Use Agency-Approved Messaging for Team Communication",
+    "shortText": "Do not use personal messaging apps.",
+    "longText": "Apps like iMessage, SMS, WhatsApp, and Facebook Messenger do not meet CJIS standards for encryption and auditing. Only use agency-approved messaging platforms for operational discussions.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 190,
+    "title": "Disconnect From Networks When Not Needed",
+    "shortText": "Limit exposure time.",
+    "longText": "If you do not need to be connected to CJIS systems or wireless networks, disconnect when appropriate. This reduces attack surface and prevents unauthorized background access.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 191,
+    "title": "Avoid Using Free Online PDF Tools",
+    "shortText": "Document converters may upload files externally.",
+    "longText": "Free PDF merge or convert tools often upload files to unknown servers. CJI must never be processed using unapproved third-party online tools.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 192,
+    "title": "Label CJI Clearly When Required",
+    "shortText": "Follow agency marking guidelines.",
+    "longText": "Although CJIS does not mandate classification markings, your agency may require labels such as 'CJI—Sensitive.' Proper labeling reduces accidental exposure and improves handling.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 193,
+    "title": "Never Accept Unknown Bluetooth Pairing Requests",
+    "shortText": "Unauthorized devices may attempt to connect.",
+    "longText": "Attackers may use Bluetooth pairing to access devices. Decline all unsolicited pairing prompts immediately and notify IT if they persist.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 194,
+    "title": "Always Use Locked Storage For Evidence Drives",
+    "shortText": "Portable drives with CJI must remain secured.",
+    "longText": "Store evidence drives, forensic media, and CJI USB devices in locked, controlled-access storage. Even brief exposure can lead to unauthorized disclosure.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 195,
+    "title": "Avoid Using Auto-Login Features",
+    "shortText": "Credentials must not auto-fill into CJIS systems.",
+    "longText": "Auto-login features bypass required authentication safeguards. CJIS requires all access to be tied to authenticated, auditable user sessions.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 196,
+    "title": "Report Stolen Credentials Immediately",
+    "shortText": "Even suspected theft must be reported.",
+    "longText": "If you suspect someone has obtained your password, token, or PIN, report it immediately. Delayed reporting significantly increases breach risk and violates policy.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 197,
+    "title": "Do Not Use Public Cloud Backups",
+    "shortText": "Backups must meet CJIS encryption standards.",
+    "longText": "Personal cloud services like iCloud Backup, Google One, or OneDrive cannot store CJI unless specifically configured and approved by the agency.",
+    "section": "5.8 Media Protection / 5.13 Mobile Devices"
+  },
+  {
+    "id": 198,
+    "title": "Secure Video Footage Containing CJI",
+    "shortText": "Handle surveillance content properly.",
+    "longText": "Security footage or bodycam videos often contain CJI. Only store, transfer, or share these files using approved CJIS-compliant systems and channels.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 199,
+    "title": "Use Proper Procedures for Remote Wipe",
+    "shortText": "Lost devices require quick action.",
+    "longText": "If an agency device is lost or stolen, IT may need to initiate a remote wipe. Do not attempt to wipe devices yourself without guidance; incorrect handling may affect investigations.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 200,
+    "title": "Do Not Store Evidence Photos in Personal Albums",
+    "shortText": "Camera roll storage violates CJIS.",
+    "longText": "Evidence photos must be captured and uploaded using agency-approved secure apps. Personal photo galleries are not CJIS-compliant and may sync to cloud accounts.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 201,
+    "title": "Use Strong Protection for Encryption Keys",
+    "shortText": "Keys must be handled securely.",
+    "longText": "Encryption keys protect CJI. Do not store keys in email, shared files, or unsecured notes. Follow agency procedures for key handling and rotation.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 202,
+    "title": "Do Not Leave Chat Sessions with CJI Visible",
+    "shortText": "Chats often contain sensitive case information.",
+    "longText": "If you step away, close or minimize messaging apps that contain incident details or CJI to prevent unauthorized viewing.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 203,
+    "title": "Use Agency-Approved Screen Capture Tools When Authorized",
+    "shortText": "Only capture CJI when necessary and approved.",
+    "longText": "If your role requires capturing screens containing CJI, use only approved and logged tools. CJIS requires traceability and proper handling of captured data.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 204,
+    "title": "Follow Procedures for External Agency Requests",
+    "shortText": "Verify authorization before releasing CJI.",
+    "longText": "External agencies must have appropriate agreements and authorization to receive CJI. Always verify MOUs, user agreements, or legal requirements before sending sensitive information.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 205,
+    "title": "Use Secure Calls for Sensitive Conversations",
+    "shortText": "Avoid discussing CJI on personal phones.",
+    "longText": "Personal cell phones and commercial VoIP systems may route calls through insecure networks. Use agency-approved, encrypted voice systems for sensitive discussions whenever possible.",
+    "section": "5.8 Media Protection / 5.9 Physical Protection"
+  },
+  {
+    "id": 206,
+    "title": "Avoid Copying CJI Into Spreadsheets Unless Approved",
+    "shortText": "Spreadsheets can leak sensitive information.",
+    "longText": "Many spreadsheet apps auto-save to cloud storage or sync between devices. Only enter CJI into spreadsheets if the file location, device, and application are all approved by your agency and meet CJIS standards.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 207,
+    "title": "Lock Evidence Rooms at All Times",
+    "shortText": "Never leave evidence storage areas unsecured.",
+    "longText": "Evidence rooms often contain CJI and sensitive media. Even brief periods unlocked can result in unauthorized access or chain-of-custody issues. Ensure doors remain locked whenever unattended.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 208,
+    "title": "Be Cautious When Forwarding Email Threads",
+    "shortText": "Hidden CJI may be buried in the conversation.",
+    "longText": "Email chains often contain sensitive data from earlier messages. Review the entire thread before forwarding to ensure you're not sharing CJI with unauthorized recipients.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 209,
+    "title": "Do Not Store Passwords in Plaintext Files",
+    "shortText": "Avoid storing credentials in notes or documents.",
+    "longText": "Passwords stored in plaintext—Notes apps, text files, email drafts—violate CJIS password-handling requirements. Use only agency-approved password management solutions.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 210,
+    "title": "Turn Off Device Screens When Talking to Visitors",
+    "shortText": "Prevent shoulder-surfing of CJI.",
+    "longText": "If someone enters your workspace who is not authorized to see CJI, lock your device or put the display to sleep. Even a quick glance can expose sensitive information.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 211,
+    "title": "Check Email Recipients Carefully Before Sending",
+    "shortText": "Autofill mistakes are a common breach source.",
+    "longText": "Always double-check the 'To' and 'CC' fields when sending messages involving sensitive data. Email autofill often selects unintended recipients, risking unauthorized disclosure.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 212,
+    "title": "Ensure Remote Sessions Time Out Properly",
+    "shortText": "Idle sessions must close automatically.",
+    "longText": "CJIS requires automatic timeout for remote sessions. If your remote access does not log out automatically after inactivity, report it so proper safeguards can be configured.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 213,
+    "title": "Avoid Writing Case Information on Sticky Notes",
+    "shortText": "Temporary notes can become permanent risks.",
+    "longText": "Sticky notes are easy to lose and often left in open areas. Never record CJI or passwords on sticky notes. Use approved secure digital or physical storage methods instead.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 214,
+    "title": "Use Dedicated Work Accounts Only",
+    "shortText": "CJIS work must stay on CJIS accounts.",
+    "longText": "CJIS-related work cannot be conducted using personal accounts or shared accounts. Every action must be traceable to an individual user under auditing requirements.",
+    "section": "5.4 Auditing & Accountability / 5.5 Access Control"
+  },
+  {
+    "id": 215,
+    "title": "Protect File Metadata",
+    "shortText": "Metadata can reveal sensitive information.",
+    "longText": "File names, timestamps, and embedded metadata may contain CJI. Before transmitting or storing files, ensure metadata does not reveal case identifiers, locations, or other sensitive info.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 216,
+    "title": "Use Proper Handling for Subpoenaed CJI",
+    "shortText": "Legal requests must follow procedure.",
+    "longText": "When responding to subpoenas or legal requests involving CJI, follow agency guidance and ensure data is transferred using CJIS-compliant methods only. Unauthorized disclosures may violate federal regulations.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 217,
+    "title": "Do Not Leave Maps or Tactical Plans Visible",
+    "shortText": "CJI includes operational information.",
+    "longText": "Maps, tactical sheets, patrol routes, and operational plans must not be left on desktops or walls in unsecured areas. These materials reveal sensitive operational patterns.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 218,
+    "title": "Use Locked Containers for Transporting Documents",
+    "shortText": "Transporting CJI requires physical protection.",
+    "longText": "Documents containing CJI must be transported in sealed, locked containers or envelopes. Do not carry exposed papers through public areas.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 219,
+    "title": "Never Assume an Email Attachment is Safe",
+    "shortText": "Even known senders may be compromised.",
+    "longText": "Malware often arrives disguised as a familiar contact. Verify any unexpected attachment before opening it, and report anything suspicious to IT immediately.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 220,
+    "title": "Secure Network Diagrams and System Maps",
+    "shortText": "These diagrams contain sensitive infrastructure details.",
+    "longText": "Network architecture diagrams, IP ranges, and server maps should be stored and shared only through CJIS-compliant systems. Exposure can enable targeted cyberattacks.",
+    "section": "5.10 System Configuration / 5.9 Physical Protection"
+  },
+  {
+    "id": 221,
+    "title": "Avoid Discussing CJI Over Speakerphone",
+    "shortText": "Use private voice channels when possible.",
+    "longText": "Speakerphones can expose CJI to anyone nearby. Use handset mode or approved headsets to limit who can hear sensitive case information.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 222,
+    "title": "Always Verify Device Certificates",
+    "shortText": "Trusted certificates ensure secure connections.",
+    "longText": "If you see certificate warnings when accessing CJIS portals, stop immediately. Invalid or mismatched certificates may indicate a man-in-the-middle attack.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 223,
+    "title": "Don’t Leave Digital Forensic Images Unsecured",
+    "shortText": "Forensic data is extremely sensitive.",
+    "longText": "Forensic images often contain complete device snapshots including CJI, personal data, and evidence. Store them only on approved encrypted drives or forensic servers.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 224,
+    "title": "Review Automated Alerts Promptly",
+    "shortText": "Alerts may indicate attempted breaches.",
+    "longText": "System alerts about failed logins, suspicious network connections, or unauthorized access attempts must be reviewed quickly. Rapid response supports CJIS incident handling requirements.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 225,
+    "title": "Avoid Using Pages with Auto-Sync Capability",
+    "shortText": "Some apps sync content to the cloud by default.",
+    "longText": "Apps like Apple Notes, OneNote, Evernote, and Google Docs automatically sync content to external servers. Unless your agency has approved the configuration, do not store CJI in these apps.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 226,
+    "title": "Protect Documents During Transport Between Buildings",
+    "shortText": "Walking between facilities still requires secure handling.",
+    "longText": "When carrying printed CJI between agency buildings, ensure papers are sealed in envelopes or folders that conceal sensitive content. Even short walks can expose information to unauthorized individuals.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 227,
+    "title": "Disable Auto-Save to Personal Cloud Accounts",
+    "shortText": "Ensure documents save only to approved locations.",
+    "longText": "Some apps automatically back up documents to personal cloud accounts. CJIS prohibits this. Confirm that auto-save is disabled or configured to use secure, agency-managed storage.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 228,
+    "title": "Verify Secure Deletion of Temporary Files",
+    "shortText": "Temp files may contain hidden CJI.",
+    "longText": "Applications often store temporary versions of documents. Confirm that temporary files created by CJIS-related work are properly deleted or stored only in secure, approved locations.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 229,
+    "title": "Avoid Using Email For Large CJI Transfers",
+    "shortText": "Large files should be shared securely.",
+    "longText": "Email systems may fail to encrypt large attachments end-to-end. Use agency-approved secure file transfer platforms or portals instead of email for high-volume CJI files.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 230,
+    "title": "Always Lock Devices Before Plugging Into Projectors",
+    "shortText": "Prevent accidental projection of CJI.",
+    "longText": "If you connect a laptop to a projector or conference system, lock your screen first. Ensure only non-sensitive visuals are displayed before unlocking.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 231,
+    "title": "Verify Encryption Before Uploading to Evidence Systems",
+    "shortText": "Not all upload methods are equally secure.",
+    "longText": "Before uploading digital evidence or CJI to online systems, confirm that the platform enforces encryption in transit and at rest. Report any outdated or unencrypted interfaces.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 232,
+    "title": "Avoid Logging In Through Untrusted Networks",
+    "shortText": "Networks like hotels or coffee shops are unsafe.",
+    "longText": "Even with a VPN, untrusted public networks increase the risk of interception or rogue access points. Connect only through approved networks or secure mobile hotspots.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 233,
+    "title": "Check For Unauthorized Video Recording Devices",
+    "shortText": "Cameras must not capture CJI unintentionally.",
+    "longText": "Smart displays, webcams, and conference cameras may record when not intended. Ensure recording devices are off or covered when working with CJI unless approved and logged.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 234,
+    "title": "Keep Backup Drives in Secure Environments",
+    "shortText": "Backup media requires the same protection as primary data.",
+    "longText": "Backup drives containing CJI must be secured with physical locks, encryption, and strict access controls. Do not leave backups on desks or unsecured shelves.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 235,
+    "title": "Do Not Upload CJI to Electronic Whiteboards",
+    "shortText": "Smart boards may store or sync content.",
+    "longText": "Interactive whiteboards, touchscreen displays, and smart meeting devices often keep copies of displayed materials. Avoid sharing CJI with such systems unless configured and approved.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 236,
+    "title": "Follow Proper Disposal Procedures for Labels and Stickers",
+    "shortText": "Labels may contain sensitive identifiers.",
+    "longText": "Case numbers or personal identifiers on labels, stickers, or packaging must be shredded or destroyed securely—not thrown in the trash—since they may reveal CJI.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 237,
+    "title": "Check for Updated CJIS Security Addendums",
+    "shortText": "Vendors must have current agreements.",
+    "longText": "Before sharing CJI with contractors or service providers, confirm that their CJIS Security Addendum is current, signed, and compliant. Outdated agreements may violate federal requirements.",
+    "section": "5.12 Personnel Security"
+  },
+  {
+    "id": 238,
+    "title": "Keep System Logs Protected From Modification",
+    "shortText": "Logs must remain tamper-proof.",
+    "longText": "CJIS requires audit logs be protected from unauthorized access or modification. If you notice missing or altered log entries, report the issue immediately.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 239,
+    "title": "Use Secure Methods for Password Sharing in Emergencies",
+    "shortText": "Emergency access must still follow protocol.",
+    "longText": "Emergency access procedures must use approved break-glass accounts or official escalation steps—not personal messages, sticky notes, or handwritten passwords.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 240,
+    "title": "Avoid Posting CJI on Internal Social Platforms",
+    "shortText": "Internal chat boards may still lack protections.",
+    "longText": "Even internal discussion boards or department-wide chat systems may not meet CJIS encryption or auditing standards. Share CJI only in officially approved systems.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 241,
+    "title": "Ensure Time-Based Logouts Are Not Disabled",
+    "shortText": "Timeout settings must remain active.",
+    "longText": "Automatic logout reduces unauthorized access risk. Do not alter or bypass timeout controls, even for convenience. If they malfunction, notify IT immediately.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 242,
+    "title": "Be Careful When Mirroring Displays",
+    "shortText": "Mirroring may show CJI on unintended screens.",
+    "longText": "If your device can mirror to TVs, conference screens, or wireless displays, ensure mirroring is turned off when working with CJI. Unauthorized display can cause accidental exposure.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 243,
+    "title": "Correctly Classify Call Recordings",
+    "shortText": "Recorded CJI must be handled securely.",
+    "longText": "Call recordings involving CJI must be stored in approved evidence systems with encryption and audit controls. Do not keep recordings on personal devices or unapproved servers.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 244,
+    "title": "Follow Proper Remote Session Closure Procedures",
+    "shortText": "Always close remote sessions fully.",
+    "longText": "Closing only the window of a remote session may not log you out. Ensure you fully sign out and terminate connections to prevent unauthorized access.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 245,
+    "title": "Review Permissions on Shared Mailboxes",
+    "shortText": "Shared inboxes must have proper access restrictions.",
+    "longText": "If your agency uses shared mailboxes, ensure only authorized individuals have access and that CJI is handled according to policy. Remove users promptly when roles change.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 246,
+    "title": "Avoid Leaving CJIS Portals Logged In During Breaks",
+    "shortText": "Always log out when stepping away.",
+    "longText": "Leaving CJIS portals open and unattended—even for a short break—violates physical protection rules. Always lock your screen or fully log out to prevent unauthorized access.",
+    "section": "5.9 Physical Protection / 5.4 Auditing & Accountability"
+  },
+  {
+    "id": 247,
+    "title": "Use Agency-Approved Methods for Redaction",
+    "shortText": "Improper redaction can expose sensitive data.",
+    "longText": "Do not use basic drawing tools or black boxes for redaction. Use approved software that permanently removes underlying text or data, ensuring CJI cannot be recovered.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 248,
+    "title": "Ensure Secure Handling of Paper Intake Forms",
+    "shortText": "Temporary documents must be treated as CJI.",
+    "longText": "Paper forms containing names, DOBs, case info, or fingerprints must be stored securely until digitized or filed. Never leave intake forms on counters or shared tables.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 249,
+    "title": "Use Dedicated Workstations for CJI When Possible",
+    "shortText": "Minimize crossover between personal and CJIS tasks.",
+    "longText": "Workstations accessing CJI should not be used for non-work tasks like browsing, social media, or personal email. Segregated environments reduce exposure and malware risks.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 250,
+    "title": "Check for Hidden Data Before Sharing Documents",
+    "shortText": "Metadata may contain CJI.",
+    "longText": "Documents may include hidden properties such as edits, comments, tracked changes, or GPS data. Review and scrub metadata before sharing files externally.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 251,
+    "title": "Do Not Use Free USB Charging Cables",
+    "shortText": "Cables may contain embedded malware.",
+    "longText": "Attackers can hide malicious hardware inside USB cables. Only use agency-issued or trusted charging cables for devices that store or access CJI.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 252,
+    "title": "Follow Secure Handling for Multi-Function Printers",
+    "shortText": "MFPs store data internally.",
+    "longText": "Many printers, scanners, and copiers store cached images. Ensure your agency’s MFPs are configured securely and do not store CJI unnecessarily.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 253,
+    "title": "Use Secure File Naming Conventions",
+    "shortText": "Avoid revealing case details in filenames.",
+    "longText": "Filenames can appear in logs, browser history, or backups. Avoid using sensitive info such as case numbers, victim names, or addresses in filenames.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 254,
+    "title": "Ensure Tablets Are Logged Out After Field Use",
+    "shortText": "Field devices must be secured promptly.",
+    "longText": "When returning from field activities, close open files, log out of CJIS apps, and ensure devices sync only over secure agency networks.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 255,
+    "title": "Do Not Store CJI in Voice Notes or Dictation Apps",
+    "shortText": "Voice apps may upload recordings.",
+    "longText": "Many mobile dictation apps send audio to cloud servers for processing. Use only agency-approved systems for recording or transcribing statements.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 256,
+    "title": "Use Secure Trash and Recycling Bins",
+    "shortText": "Paper CJI must not enter normal waste streams.",
+    "longText": "Shredded or unshredded CJI must never enter public trash or recycling bins. Use only agency-managed secure destruction containers.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 257,
+    "title": "Secure Case-Related Maps and Photos",
+    "shortText": "Printed imagery may reveal sensitive locations.",
+    "longText": "Documents that include crime scenes, target locations, or surveillance imagery must be stored in secure areas. Do not leave them in public workspaces or briefing rooms.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 258,
+    "title": "Turn Off Nearby Smart TVs and Displays",
+    "shortText": "Smart devices may record or mirror screens.",
+    "longText": "Some smart TVs, casting devices, or displays may capture or mirror content. Disable casting features and ensure displays are not passively recording while working with CJI.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 259,
+    "title": "Confirm Permissions Before Starting Data Transfers",
+    "shortText": "Transfers must be authorized.",
+    "longText": "Before sending CJI to another department or agency, ensure their access level and agreements are current. Unauthorized transfers may violate CJIS information exchange rules.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 260,
+    "title": "Disconnect External Drives After Use",
+    "shortText": "Avoid leaving CJI-containing drives attached.",
+    "longText": "External drives containing sensitive media must be removed and secured after use. Leaving them connected increases the risk of unauthorized access or malware spread.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 261,
+    "title": "Read Banner Warnings Before Logging In",
+    "shortText": "Login banners contain legal requirements.",
+    "longText": "Login banners often include consent-to-monitor notices and use restrictions mandated by CJIS. Reviewing them helps reinforce authorized-use expectations.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 262,
+    "title": "Avoid Printing CJI to Unsecured Remote Print Services",
+    "shortText": "Remote printing services may store data externally.",
+    "longText": "Services like cloud print, wireless hotel printers, or retail print centers cannot be used for CJI. Only agency-controlled printers meet required protections.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 263,
+    "title": "Use Proper Packaging for Mailed CJI",
+    "shortText": "Mailing must follow strict guidelines.",
+    "longText": "When mailing CJI, use double envelopes, tamper-evident seals, and trackable shipping methods. Never place CJI in standard outgoing mail bins.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 264,
+    "title": "Keep Password Reset Tokens Secure",
+    "shortText": "Tokens must be protected like passwords.",
+    "longText": "If you receive a password reset token, link, or one-time code, do not forward or share it—ever. Treat reset credentials as highly sensitive authentication material.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 265,
+    "title": "Check External Devices for Physical Tampering",
+    "shortText": "Tampered hardware can steal data.",
+    "longText": "Before using card readers, scanners, kiosks, or terminals, check for loose panels or unusual attachments. Tampered devices may intercept CJI or login data.",
+    "section": "5.9 Physical Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 266,
+    "title": "Avoid Using Browser Sync Features",
+    "shortText": "Syncing may send data to non-CJIS cloud services.",
+    "longText": "Browser sync features such as Chrome Sync or Firefox Sync may upload bookmarks, history, passwords, and cached data to cloud servers that are not CJIS compliant. Ensure sync is disabled on devices used for CJIS access.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 267,
+    "title": "Secure Dash Cameras and Vehicle Computers",
+    "shortText": "In-car systems may store CJI.",
+    "longText": "Patrol vehicle computers, dash cameras, and mobile terminals often contain CJI. Lock vehicles, secure devices, and ensure that dash-cam storage is encrypted and uploaded only through approved systems.",
+    "section": "5.13 Mobile Devices / 5.8 Media Protection"
+  },
+  {
+    "id": 268,
+    "title": "Use Strong Security Questions",
+    "shortText": "Avoid easy-to-guess answers.",
+    "longText": "Security questions should not include publicly known details such as birthdays, pets, or hometowns. CJIS requires strong authentication practices—choose answers that cannot be guessed or found online.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 269,
+    "title": "Do Not Leave Open Files Visible in Shared Offices",
+    "shortText": "Close documents when others enter.",
+    "longText": "If someone enters a shared workspace—contractor, maintenance staff, or another department—close CJIS files on your screen or cover printed material immediately.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 270,
+    "title": "Limit Use of Clipboard Copy/Paste",
+    "shortText": "Clipboard data may persist unexpectedly.",
+    "longText": "Some systems store clipboard content across apps or sync it with other devices. Avoid copying CJI into clipboard tools unless you confirm clipboard syncing is disabled.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 271,
+    "title": "Check Desks for Residual Impressions",
+    "shortText": "Writing impressions may reveal sensitive data.",
+    "longText": "Writing with pressure can leave indent marks on notepads or desk pads. After writing CJI on paper, ensure leftover indentations are not readable and store documents securely.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 272,
+    "title": "Avoid Using Hidden Folders to Store CJI",
+    "shortText": "Hiding files is not securing them.",
+    "longText": "Hidden folders or obscure filenames do not meet CJIS protections. CJI must be stored only in encrypted, access-controlled directories managed or approved by the agency.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 273,
+    "title": "Use Secure Methods When Discussing CJI Over Radio",
+    "shortText": "Follow radio protocols carefully.",
+    "longText": "Some radios may transmit unencrypted by default. Always follow agency procedures for what types of information may be shared over radio channels and avoid broadcasting sensitive identifiers unless required.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 274,
+    "title": "Secure Forensic Workstations",
+    "shortText": "Forensic machines contain highly sensitive data.",
+    "longText": "Digital forensic machines often contain full device images, logs, and CJI. Ensure they remain in physically restricted rooms, are locked when not in use, and accessed only by authorized personnel.",
+    "section": "5.9 Physical Protection / 5.8 Media Protection"
+  },
+  {
+    "id": 275,
+    "title": "Properly Handle Returned IT Equipment",
+    "shortText": "Devices must be sanitized before reassignment.",
+    "longText": "When laptops, tablets, or phones are turned in, they must undergo CJIS-approved sanitization before being repurposed. Do not donate, recycle, or dispose of devices without IT clearance.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 276,
+    "title": "Verify Caller Identity for Password Reset Requests",
+    "shortText": "Social engineering often targets help desks.",
+    "longText": "If someone calls requesting a password reset or account assistance, verify their identity through approved channels. Attackers often impersonate employees to gain access.",
+    "section": "5.3 Incident Response / 5.6 Identification & Authentication"
+  },
+  {
+    "id": 277,
+    "title": "Use Secure Methods for Sharing Case Updates",
+    "shortText": "Do not text case details.",
+    "longText": "Sending case updates, reports, or identifiers via personal text or group chats violates CJIS media handling requirements. Use secure, agency-approved messaging or records systems.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 278,
+    "title": "Avoid Leaving Audio Evidence Unattended",
+    "shortText": "Audio files often contain sensitive interviews.",
+    "longText": "Interview recordings, dispatch audio, and forensic sound files must be secured in approved locations. Do not leave them on desktops, conference tables, or shared drives.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 279,
+    "title": "Ensure Printers Automatically Clear Memory",
+    "shortText": "Printer memory may retain CJI.",
+    "longText": "Some printers store document images in internal memory. Confirm that printers handling CJI erase cached data or are configured to restrict unauthorized access.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 280,
+    "title": "Avoid Reading Case Documents in Public Places",
+    "shortText": "Bystanders may see your screen or papers.",
+    "longText": "Even if sitting in a quiet coffee shop or waiting room, avoid reviewing digital or printed CJI. Public environments are never appropriate for CJI access.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 281,
+    "title": "Use Secure Methods for Internal Transfers",
+    "shortText": "Internal email is not always encrypted.",
+    "longText": "Not all internal email systems meet CJIS encryption requirements by default. Ensure internal transfers of CJI use encrypted channels or secure file transfer options as required.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 282,
+    "title": "Monitor Badge Access Reports",
+    "shortText": "Unusual badge activity may indicate compromise.",
+    "longText": "If your role includes physical security oversight, review badge logs for unusual access patterns such as after-hours entry or repeated access failures.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 283,
+    "title": "Double-Check Recipients When Using Secure Portals",
+    "shortText": "Mistakes can still happen in secure systems.",
+    "longText": "Even in encrypted, authorized portals, CJI must be sent only to recipients with a verified need-to-know. Always confirm recipient lists before submitting.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 284,
+    "title": "Use Agency-Issued Cables and Accessories",
+    "shortText": "Unapproved accessories can compromise devices.",
+    "longText": "Cheap or unknown cables, adapters, and dongles may include malicious firmware. Use only agency-approved accessories to connect or charge devices used for CJIS access.",
+    "section": "5.13 Mobile Devices / 5.10 System Configuration"
+  },
+  {
+    "id": 285,
+    "title": "Follow Cancellation Procedures for Lost Access Cards",
+    "shortText": "Lost cards must be disabled immediately.",
+    "longText": "If your access badge is lost or stolen, report it immediately so physical access can be revoked. CJIS requires strict control over secure area access points.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 286,
+    "title": "Avoid Leaving Case Files Visible During Screen Sharing",
+    "shortText": "Close sensitive apps before sharing your screen.",
+    "longText": "When presenting or sharing your screen in meetings, ensure all windows containing CJI are fully closed—not just minimized. Accidental exposure during screen sharing is a frequent cause of data leakage.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 287,
+    "title": "Follow Device Replacement Procedures Carefully",
+    "shortText": "CJI devices must be wiped before replacement.",
+    "longText": "When replacing a laptop, phone, or tablet that accesses CJI, follow agency procedures to ensure secure backup, wipe, and handoff. Do not simply trade in or discard these devices.",
+    "section": "5.8 Media Protection / 5.13 Mobile Devices"
+  },
+  {
+    "id": 288,
+    "title": "Use Approved Software for Scanning Documents",
+    "shortText": "Unapproved apps may upload scans to cloud servers.",
+    "longText": "Scanning apps on mobile devices or unapproved scanners often sync files automatically to cloud storage. Only use agency-approved scanners or secure mobile scanning solutions.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 289,
+    "title": "Check for Auto-Connect Network Settings",
+    "shortText": "Disable auto-join for unknown Wi-Fi networks.",
+    "longText": "Auto-connect features may join unsecured or rogue networks without your awareness. Disable auto-join for all networks except those explicitly authorized by the agency.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 290,
+    "title": "Confirm CJIS Compliance Before Using Dashboards",
+    "shortText": "Analytic dashboards must be secured.",
+    "longText": "Business intelligence tools, analytics dashboards, and case-tracking platforms must use encrypted, access-controlled connections. Do not load CJI into non-approved dashboards.",
+    "section": "5.8 Media Protection / 5.10 System Configuration"
+  },
+  {
+    "id": 291,
+    "title": "Avoid Using Wireless Keyboards or Mice Unless Approved",
+    "shortText": "Wireless peripherals may be insecure.",
+    "longText": "Wireless keyboards and mice can be intercepted or spoofed. Use only agency-approved models with encrypted communication channels.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 292,
+    "title": "Properly Log Out of Shared Kiosks or Dispatch Systems",
+    "shortText": "Shared systems require extra caution.",
+    "longText": "Dispatch consoles, lab kiosks, or other shared devices must be fully logged out after use. Do not assume the next person will secure your session.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 293,
+    "title": "Check Case Numbers Before Sending Documents",
+    "shortText": "Ensure you’re sending the right file.",
+    "longText": "Before emailing, printing, or uploading case files, verify the case number. A common error is sending documents from a similarly numbered but unrelated case.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 294,
+    "title": "Avoid Using Predictable File Passwords",
+    "shortText": "Weak file passwords put CJI at risk.",
+    "longText": "If password protection is used for documents or archives, ensure passwords meet CJIS complexity requirements. Avoid using case numbers, agency names, or predictable patterns.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 295,
+    "title": "Ensure Screens Lock During Automatic Sleep",
+    "shortText": "Sleep mode must require authentication.",
+    "longText": "Devices should require reauthentication after waking from sleep or standby mode. Report any system that wakes without a password or biometric login.",
+    "section": "5.10 System Configuration / 5.6 Identification & Authentication"
+  },
+  {
+    "id": 296,
+    "title": "Avoid Referencing Victim or Witness Names in Nonsecure Apps",
+    "shortText": "Use initials or secure channels when needed.",
+    "longText": "If you must communicate operational information outside of CJIS systems, remove personally identifiable details. However, never reduce CJI security—use secure platforms whenever possible.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 297,
+    "title": "Secure Email Archives and PST Files",
+    "shortText": "Exported email files must be encrypted.",
+    "longText": "If emails are archived into PST, MBOX, or EML formats, they must be stored only in encrypted, CJIS-approved locations. These files often contain large amounts of sensitive data.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 298,
+    "title": "Handle Inter-Agency USB Media With Care",
+    "shortText": "Shared media must follow chain-of-custody rules.",
+    "longText": "If USB drives or other media are exchanged between agencies, ensure each transfer is documented, encrypted, and securely transported. Never hand off media informally.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 299,
+    "title": "Verify Secure Wi-Fi Certificates",
+    "shortText": "Untrusted certificates may indicate rogue networks.",
+    "longText": "When connecting to agency Wi-Fi, ensure the certificate shows the correct issuing authority. If a certificate warning appears, disconnect immediately and report the issue.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 300,
+    "title": "Disable File Sharing When Working With CJI",
+    "shortText": "Network sharing may expose sensitive files.",
+    "longText": "Ensure system-wide file sharing, AirDrop, SMB shares, or peer-to-peer sharing features are disabled unless explicitly required for an approved workflow.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 301,
+    "title": "Ensure Access Badges Are Not Duplicated",
+    "shortText": "Badge cloning is a security threat.",
+    "longText": "Some badges can be cloned if left unattended or scanned by malicious devices. Keep badges shielded and report any suspicious behavior near badge readers.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 302,
+    "title": "Limit Use of Browser Plugins",
+    "shortText": "Plugins may log keystrokes or track data.",
+    "longText": "Only install browser plugins approved by your agency. Many plugins collect browsing data, track keystrokes, or sync information externally—violating CJIS requirements.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 303,
+    "title": "Avoid Using Personal Smart Devices Near CJI",
+    "shortText": "Smart devices constantly collect data.",
+    "longText": "Smart speakers, home assistants, smartwatches, and IoT devices may listen, record, or transmit data. Keep them away from areas where CJI is discussed or viewed.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 304,
+    "title": "Check That Email Auto-Forward Rules Are Disabled",
+    "shortText": "Auto-forwarding may send email externally.",
+    "longText": "Unauthorized auto-forward rules can leak CJI to personal email accounts or external addresses. Review and disable auto-forwarding unless expressly approved.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 305,
+    "title": "Avoid Keeping CJI in Browser History",
+    "shortText": "History may expose URLs or case details.",
+    "longText": "Some case management or RMS systems include identifiers in their URLs or page titles. Ensure browsing sessions are cleared regularly and that CJIS sessions are not cached.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 306,
+    "title": "Be Careful When Using Email Search",
+    "shortText": "Search results may reveal CJI unexpectedly.",
+    "longText": "Searching your email inbox may show message previews containing CJI. Ensure no unauthorized individuals can see your screen while you are searching or reviewing message histories.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 307,
+    "title": "Avoid Storing CJI in Clipboard Managers",
+    "shortText": "Some systems retain clipboard history.",
+    "longText": "Clipboard managers can store multiple copied items and sync them between devices. Disable clipboard history and avoid copying CJI unless necessary for specific secure workflows.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 308,
+    "title": "Secure Case Folders During Transport in the Field",
+    "shortText": "Fieldwork requires extra caution.",
+    "longText": "Printed case folders used in patrol cars or field work must be stored securely when not in use. Keep them locked in compartments or in secured bags according to agency policy.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 309,
+    "title": "Check the Area for Sensitive Documents Before Meetings",
+    "shortText": "Shared rooms can expose CJI.",
+    "longText": "Before holding a meeting in a shared space, check the table, whiteboards, and projector screens to ensure no leftover documents or CJI materials from previous users remain visible.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 310,
+    "title": "Use Proper Storage for Interview Notes",
+    "shortText": "Handwritten notes can contain CJI.",
+    "longText": "Interview notes must be stored in secure evidence lockers or approved filing systems. Avoid leaving them in vehicles, backpacks, or personal bags after interviews.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 311,
+    "title": "Verify Email Encryption Before Sending",
+    "shortText": "Some systems show encryption indicators.",
+    "longText": "Check your email client for visual indicators confirming encryption is active. If encryption is not available, use a different approved method for sending the information.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 312,
+    "title": "Monitor Who Is Behind You When Handling CJI",
+    "shortText": "Be aware of your surroundings.",
+    "longText": "Shoulder surfing occurs even inside agency buildings. When working with CJI, ensure no unauthorized personnel are standing behind or near you.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 313,
+    "title": "Avoid Storing CJI in Email 'Sent Items'",
+    "shortText": "Sent folders may retain sensitive attachments.",
+    "longText": "After sending encrypted CJI, ensure sent emails are stored according to agency retention rules. Some agencies require periodic deletion or archiving within secure systems.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 314,
+    "title": "Use Secure Methods for Delivering Court Documents",
+    "shortText": "Court filings may include CJI.",
+    "longText": "When delivering documents to courts or prosecutors, use sealed envelopes and avoid handing documents to unauthorized personnel. Use documented receipt processes when required.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 315,
+    "title": "Secure Tablets During Multi-Agency Operations",
+    "shortText": "Operational environments increase exposure risk.",
+    "longText": "During joint operations or large field events, ensure tablets accessing CJIS systems are tethered, secured, or kept in supervised areas. Do not leave devices unattended at staging sites.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 316,
+    "title": "Do Not Store Backup Authentication Codes on Devices",
+    "shortText": "Backup codes must be handled securely.",
+    "longText": "MFA backup codes stored on mobile phones, laptops, or notes apps can compromise account security. Store them only in approved secure locations or password managers.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 317,
+    "title": "Follow CJIS Rules for Handling Juvenile Records",
+    "shortText": "Juvenile CJI requires heightened caution.",
+    "longText": "Juvenile records often require specific handling, storage, and disclosure restrictions mandated by state and federal law. Always follow agency policy for working with juvenile CJI.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 318,
+    "title": "Secure Printed Photos Immediately After Use",
+    "shortText": "Photos may display sensitive scenes.",
+    "longText": "Printed photographs used for briefings or identification must be returned to secure storage after use. Do not leave them on desks, bulletin boards, or briefing tables.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 319,
+    "title": "Do Not Use Portable Wi-Fi Repeaters",
+    "shortText": "Unauthorized repeaters can expose networks.",
+    "longText": "Portable repeaters or boosters may route traffic through insecure channels. Use only agency-installed or agency-approved network infrastructure.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 320,
+    "title": "Secure Email Distribution Lists",
+    "shortText": "Ensure distribution lists are up-to-date.",
+    "longText": "Email lists used for sending CJI must exclude unauthorized personnel. Review and update distribution lists periodically to prevent accidental disclosure.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 321,
+    "title": "Avoid Using Smart Pens or Digital Note Devices",
+    "shortText": "Some devices sync notes to external servers.",
+    "longText": "Smart pens and digital notebooks may upload handwritten notes to cloud accounts. Do not use them for interviews or CJI-related documentation unless approved.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 322,
+    "title": "Check Encrypted Drives for Proper Functioning",
+    "shortText": "Encryption must be active and verified.",
+    "longText": "If using encrypted portable drives, periodically verify encryption status and password protection. Drives failing to mount properly may indicate encryption issues.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 323,
+    "title": "Label Evidence Containers Clearly",
+    "shortText": "Proper labeling prevents mishandling.",
+    "longText": "Containers holding CJI or evidence must be labeled without exposing sensitive case details. Use case numbers or approved identifiers rather than names or incident specifics.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 324,
+    "title": "Avoid Using Public USB Adapters or Charging Stations",
+    "shortText": "Juice jacking is a real threat.",
+    "longText": "Public USB outlets may be modified to steal data or inject malware. Charge devices only using agency-approved chargers connected to secure power sources.",
+    "section": "5.13 Mobile Devices"
+  },
+  {
+    "id": 325,
+    "title": "Ensure Deleted Files Are Removed From Cloud Trash",
+    "shortText": "Trash folders may sync across devices.",
+    "longText": "Deleting a file from a synced folder may still leave copies in cloud-based trash or revision history. Ensure deleted CJI files are fully purged according to agency procedures.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 326,
+    "title": "Avoid Leaving CJI Visible in Car Sun Visors or Door Pockets",
+    "shortText": "Vehicles are not secure storage locations.",
+    "longText": "Documents tucked into visors or door pockets can be seen through windows or fall out when doors open. Store CJI in locked compartments or secure bags while in transit.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 327,
+    "title": "Avoid Saving CJI to Desktop Folders",
+    "shortText": "Desktop folders are often unencrypted.",
+    "longText": "Files saved to the desktop may sync to cloud systems or be excluded from agency encryption policies. Store CJI only in approved secure directories.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 328,
+    "title": "Do Not Use Screenshot Tools for Sensitive Material",
+    "shortText": "Screenshots may auto-sync to clouds.",
+    "longText": "Many devices store screenshots in automatically synced cloud folders. Disable screenshot syncing or avoid capturing CJI with screenshots altogether.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 329,
+    "title": "Follow Proper Storage Requirements for Printed Mugshots",
+    "shortText": "Mugshots are considered CJI.",
+    "longText": "Mugshots printed for briefings or identification must be stored securely after use. Do not leave them unsecured in patrol cars, booking areas, or briefing rooms.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 330,
+    "title": "Ensure Device Auto-Updates Are Enabled",
+    "shortText": "Security patches protect access to CJI.",
+    "longText": "Devices accessing CJI must receive regular operating system and application updates. Ensure automatic updates are enabled to stay compliant with CJIS security requirements.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 331,
+    "title": "Verify Encryption Before Uploading Files to RMS",
+    "shortText": "RMS uploads must occur over secure connections.",
+    "longText": "Before uploading documents, photos, or reports to the Records Management System (RMS), ensure the connection is encrypted (HTTPS or VPN) and authorized by your agency.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 332,
+    "title": "Avoid Sharing Case Information Over VoIP Apps",
+    "shortText": "Consumer VoIP apps may store call data.",
+    "longText": "Consumer voice apps like WhatsApp, Skype, or FaceTime may log call metadata or recordings. Use agency-approved communication channels for discussions involving CJI.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 333,
+    "title": "Check Document Headers and Footers for CJI",
+    "shortText": "Hidden identifiers may be exposed accidentally.",
+    "longText": "Documents may contain headers or footers with case numbers, names, or timestamps that appear during printing or sharing. Always remove unneeded metadata.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 334,
+    "title": "Securely Store Body-Worn Camera Charging Docks",
+    "shortText": "Docks may store cached video.",
+    "longText": "Body-worn camera docks often contain internal memory buffers for uploaded footage. Keep docking stations in secure, access-controlled areas.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 335,
+    "title": "Avoid Leaving Whiteboards With Case Notes Un-erased",
+    "shortText": "Whiteboards often expose sensitive case details.",
+    "longText": "Erase whiteboards immediately after use, especially if they include names, addresses, case numbers, or investigative details. Photograph and store notes securely if needed.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 336,
+    "title": "Follow Proper Protocol for Sharing Criminal Histories",
+    "shortText": "Criminal histories must follow strict rules.",
+    "longText": "Criminal history information may only be shared with authorized individuals who have a verified need-to-know. Do not summarize or relay information informally.",
+    "section": "5.1 Information Exchange Agreements"
+  },
+  {
+    "id": 337,
+    "title": "Avoid Using Browser-Based PDF Editors",
+    "shortText": "Online PDF editors may store uploaded files.",
+    "longText": "Do not upload CJIS documents to websites that edit PDFs. Use approved offline PDF tools or agency-controlled document systems only.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 338,
+    "title": "Keep Conference Room Computers Logged Out",
+    "shortText": "Shared spaces require strict control.",
+    "longText": "Meeting-room computers or presentation PCs may be used by many employees. Always log out fully when finished to prevent unauthorized CJI access.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 339,
+    "title": "Avoid Leaving Digital Evidence on Personal Drives",
+    "shortText": "Personal USB drives are rarely encrypted.",
+    "longText": "Digital evidence or CJI must never be stored on personal flash drives, SD cards, or external storage. Use only agency-managed encrypted media.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 340,
+    "title": "Confirm Logging Is Enabled on CJIS Systems",
+    "shortText": "Logs are essential for accountability.",
+    "longText": "CJIS systems must generate audit logs for access attempts, changes, and deletions. If you discover logging is disabled or malfunctioning, report it immediately.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 341,
+    "title": "Turn Off Bluetooth When Not Required",
+    "shortText": "Bluetooth vulnerabilities can expose devices.",
+    "longText": "Bluetooth can be exploited to intercept communications or access devices. Disable Bluetooth when not in use, especially on devices accessing CJIS systems.",
+    "section": "5.10 System Configuration + 5.13 Mobile Devices"
+  },
+  {
+    "id": 342,
+    "title": "Use Agency-Managed Wi-Fi Hotspots in the Field",
+    "shortText": "Avoid personal or consumer hotspots.",
+    "longText": "Personal mobile hotspots or consumer MiFi devices may not meet CJIS encryption or logging standards. Use agency-issued, preconfigured hotspots only.",
+    "section": "5.10.1.2 Encryption"
+  },
+  {
+    "id": 343,
+    "title": "Ensure Visitor Logs Are Maintained in Secure Areas",
+    "shortText": "Visitor tracking is mandatory.",
+    "longText": "Any person entering a CJIS-sensitive area must be logged and escorted. Ensure visitor logs are accurate, complete, and stored securely for auditing.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 344,
+    "title": "Avoid Using Remote Desktop Tools Not Approved by the Agency",
+    "shortText": "Unauthorized remote tools pose major risks.",
+    "longText": "Remote desktop applications like TeamViewer or AnyDesk may bypass CJIS protections. Use only agency-approved remote access systems with logging and encryption.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 345,
+    "title": "Review System Permissions After Personnel Changes",
+    "shortText": "Remove access promptly.",
+    "longText": "When someone changes roles, retires, or leaves the agency, their CJIS access must be removed promptly. Regularly review privileges for accuracy and compliance.",
+    "section": "5.5 Access Control"
+  },
+  {
+    "id": 346,
+    "title": "Confirm Secure Wipe Before Reassigning Storage Media",
+    "shortText": "Reused drives must be sanitized.",
+    "longText": "Before hard drives, SSDs, or USB devices are reassigned within your agency, they must undergo a CJIS-approved sanitization process to ensure no CJI remains recoverable.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 347,
+    "title": "Use Approved Systems for Case Collaboration",
+    "shortText": "Do not collaborate via personal cloud tools.",
+    "longText": "Collaboration tools like Google Docs, Dropbox, or consumer Microsoft accounts may not be CJIS compliant. Use only agency-approved case collaboration platforms.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 348,
+    "title": "Cover Laptop Cameras in Sensitive Areas",
+    "shortText": "Cameras can record unintentionally.",
+    "longText": "Laptop webcams may activate through malware or software errors. Use agency-approved camera covers when working with CJI in sensitive locations.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 349,
+    "title": "Avoid Printing Complete Social Security Numbers",
+    "shortText": "Use truncated formats whenever allowed.",
+    "longText": "If a workflow allows for it, print only the last four digits of a Social Security number. This reduces exposure risk and aligns with CJIS privacy principles.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 350,
+    "title": "Verify Automatic Logoff Settings on Shared Systems",
+    "shortText": "Shared devices must log out promptly.",
+    "longText": "Shared terminals such as booking stations, dispatch consoles, or interview-room computers must auto-logout after a short inactivity period. Report systems that remain logged in indefinitely.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 351,
+    "title": "Avoid Using Browser Autofill for CJIS Credentials",
+    "shortText": "Never save login credentials.",
+    "longText": "Do not store CJIS usernames or passwords in browser autofill or password managers that are not agency-approved. Saved credentials can lead to unauthorized access.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 352,
+    "title": "Review Access Logs Regularly If You Are a Supervisor",
+    "shortText": "Supervisors must verify compliance.",
+    "longText": "If your role includes overseeing system access, review logs regularly to ensure only authorized personnel are accessing sensitive CJIS systems.",
+    "section": "5.4 Auditing & Accountability"
+  },
+  {
+    "id": 353,
+    "title": "Store Unattended Devices in Secure Lockers",
+    "shortText": "Lock devices when away from office.",
+    "longText": "If you must leave a device at work overnight or during extended periods, store it in a secure, agency-provided locker or storage area. Do not leave devices unattended on desks.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 354,
+    "title": "Avoid Including Case Info in Calendar Events",
+    "shortText": "Calendar notes may sync externally.",
+    "longText": "Do not include CJI—names, case numbers, or event details—in calendar entries on devices that sync to the cloud. Use non-sensitive descriptions instead.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 355,
+    "title": "Verify That Old Evidence Files Are Removed From Local Storage",
+    "shortText": "Keep evidence only where policy allows.",
+    "longText": "Local file storage on desktops or laptops should not contain outdated evidence files. Ensure all materials are uploaded to proper systems and delete local copies securely.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 356,
+    "title": "Be Alert for Tailgating at Secure Doors",
+    "shortText": "Authorized entry does not guarantee authorized access.",
+    "longText": "Tailgating—following someone into a secure access point—is a common physical security breach. Ensure every person entering badges in separately.",
+    "section": "5.9 Physical Protection"
+  },
+  {
+    "id": 357,
+    "title": "Avoid Using Personal Contact Lists for Work Numbers",
+    "shortText": "Contacts may sync to cloud accounts.",
+    "longText": "Storing work-related contacts in personal phonebooks can sync data to non-CJIS cloud systems. Use agency-managed contact systems instead.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 358,
+    "title": "Always Use Multi-Factor Authentication Where Available",
+    "shortText": "MFA is required on CJIS systems.",
+    "longText": "If a CJIS system supports MFA, it must be enabled. MFA reduces the risk of unauthorized access due to compromised passwords.",
+    "section": "5.6 Identification & Authentication"
+  },
+  {
+    "id": 359,
+    "title": "Treat Near-Miss Incidents as Reportable",
+    "shortText": "Close calls still matter.",
+    "longText": "If you nearly sent CJI to the wrong recipient or temporarily left documents unsecured, report the incident. Near-misses help improve security programs and reduce future risk.",
+    "section": "5.3 Incident Response"
+  },
+  {
+    "id": 360,
+    "title": "Avoid Leaving Devices Logged Into Mapping or Analytics Tools",
+    "shortText": "Some tools expose sensitive data overlays.",
+    "longText": "GIS systems, crime-mapping tools, or analytics dashboards may display CJI-linked overlays or datasets. Log out or close windows when leaving your workstation.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 361,
+    "title": "Check for Hidden Image Data in Digital Photos",
+    "shortText": "EXIF data may contain location info.",
+    "longText": "Before uploading or sharing photos containing CJI, verify that EXIF metadata such as GPS coordinates, timestamps, or device identifiers is removed when required.",
+    "section": "5.8 Media Protection"
+  },
+  {
+    "id": 362,
+    "title": "Follow Proper Security for Temporary Staff",
+    "shortText": "Contractors must meet CJIS requirements.",
+    "longText": "Temporary staff, interns, or contractors must undergo background checks, sign Security Addendums, and receive CJIS training before accessing any CJI.",
+    "section": "5.12 Personnel Security"
+  },
+  {
+    "id": 363,
+    "title": "Confirm That Firewalls Block Unauthorized Traffic",
+    "shortText": "System boundaries must be protected.",
+    "longText": "Ensure firewall configurations block inbound and outbound connections not explicitly approved by your agency. Misconfigured firewalls expose CJIS systems to external threats.",
+    "section": "5.10 System Configuration"
+  },
+  {
+    "id": 364,
+    "title": "Stay Up-To-Date With CJIS Security Training",
+    "shortText": "Training is required annually.",
+    "longText": "CJIS Security Awareness Training must be completed every year. Ensure you stay current on training requirements and complete them before expiration.",
+    "section": "5.2 Policy Area 2: Security Awareness Training"
+  },
+  {
+    "id": 365,
+    "title": "Always Store Devices Accessing CJI in Locked Areas Overnight",
+    "shortText": "Even locked screens are not enough.",
+    "longText": "CJIS requires devices that contain or access CJI to be stored in secure, locked environments after work hours. Locked screens alone do not meet physical security requirements.",
+    "section": "5.9 Physical Protection"
+  }
+]

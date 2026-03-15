@@ -43,7 +43,9 @@ final class AppViewModel: ObservableObject {
             let data = try JSONEncoder().encode(notificationTime)
             UserDefaults.standard.set(data, forKey: timeKey)
         } catch {
+            #if DEBUG
             print("⚠️ Failed to encode notification time: \(error)")
+            #endif
         }
 
         let comps = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)

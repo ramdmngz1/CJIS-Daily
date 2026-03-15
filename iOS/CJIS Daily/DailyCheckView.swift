@@ -201,7 +201,6 @@ struct DailyCheckView: View {
             showExplanation = false
         } else {
             onFinished(correctCount, questions.count)
-            dismiss()
         }
     }
 }

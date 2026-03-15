@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- CJIS Blue used as adaptive icon background -->
+    <!-- Adaptive icon background -->
     <color name="ic_launcher_background">#1C5CA1</color>
+    <!-- Splash screen background — matches iOS launch screen dark blue -->
+    <color name="splash_background">#0D2E6E</color>
 </resources>

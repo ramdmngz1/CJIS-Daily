@@ -1,6 +1,10 @@
 package com.refuge.cjisdaily.ui.screens
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,6 +60,20 @@ fun DailyPackScreen(
     var currentTipIndex by remember { mutableStateOf(0) }
     var showLongText by remember { mutableStateOf(false) }
 
+    // Refresh tips on every resume so returning from background on a new day
+    // shows today's pack instead of a stale one from a previous session.
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshTodayTips()
+                currentTipIndex = 0
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
     val currentTip = tips.getOrNull(currentTipIndex)
 
     Column(
@@ -109,12 +127,13 @@ fun DailyPackScreen(
 
         AnimatedContent(
             targetState = currentTipIndex,
-            label = "tip"
+            label = "tip",
+            modifier = Modifier.weight(1f)
         ) { tipIndex ->
             val tip = tips.getOrNull(tipIndex)
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 20.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)

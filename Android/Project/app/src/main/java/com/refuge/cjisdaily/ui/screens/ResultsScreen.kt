@@ -14,7 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +61,7 @@ fun ResultsScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
-                Modifier.padding(24.dp),
+                Modifier.padding(24.dp).fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("Today's Score", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
@@ -103,14 +103,14 @@ fun ResultsScreen(
                         Text("${quizProgress.lifetimeCorrect} / ${quizProgress.lifetimeAnswered}", style = MaterialTheme.typography.headlineSmall, color = CJISBlue)
                         Text("Lifetime", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                     }
-                    HorizontalDivider(modifier = Modifier.height(40.dp).padding(horizontal = 8.dp))
+                    VerticalDivider(modifier = Modifier.height(40.dp).padding(horizontal = 8.dp))
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         val lifetimePct = if (quizProgress.lifetimeAnswered == 0) 0
                                           else quizProgress.lifetimeCorrect * 100 / quizProgress.lifetimeAnswered
                         Text("$lifetimePct%", style = MaterialTheme.typography.headlineSmall, color = CJISBlue)
                         Text("Accuracy", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                     }
-                    HorizontalDivider(modifier = Modifier.height(40.dp).padding(horizontal = 8.dp))
+                    VerticalDivider(modifier = Modifier.height(40.dp).padding(horizontal = 8.dp))
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("${quizProgress.streakCount}", style = MaterialTheme.typography.headlineSmall, color = CJISBlue)
                         Text("Streak", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))

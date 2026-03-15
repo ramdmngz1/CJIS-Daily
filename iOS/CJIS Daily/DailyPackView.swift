@@ -38,6 +38,17 @@ struct DailyPackView: View {
 
     private var dailyCompleted: Bool { DailyPackProgressManager.shared.isDailyCheckCompleted }
 
+    private func refreshForCurrentDay() {
+        DailyPackProgressManager.shared.resetIfNewDay()
+        viewModel.refreshTodayTips()
+        if index >= tips.count { index = 0 }
+        todaysScore = DailyPackProgressManager.shared.todaysScore
+        screenOpacity = 0
+        withAnimation(.easeInOut(duration: 0.5).delay(0.05)) {
+            screenOpacity = 1
+        }
+    }
+
     var body: some View {
         ZStack {
             PaperBackground()
@@ -64,18 +75,13 @@ struct DailyPackView: View {
             .opacity(screenOpacity)
         }
         .onAppear {
-            DailyPackProgressManager.shared.resetIfNewDay()
-            viewModel.refreshTodayTips()
-
-            if index >= tips.count { index = 0 }
-
-            // pull persisted score if already completed
-            todaysScore = DailyPackProgressManager.shared.todaysScore
-
-            screenOpacity = 0
-            withAnimation(.easeInOut(duration: 0.5).delay(0.05)) {
-                screenOpacity = 1
-            }
+            refreshForCurrentDay()
+        }
+        // Re-check the day every time the app returns from background.
+        // onAppear does not fire on foreground resume, so this handles the
+        // "same tips all week" bug when the user taps a daily notification.
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            refreshForCurrentDay()
         }
         .onChange(of: index) { _ in
             showDetails = false

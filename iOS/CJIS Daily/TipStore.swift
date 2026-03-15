@@ -17,7 +17,9 @@ final class TipStore {
             tips = decoded
         } else {
             tips = []
+            #if DEBUG
             print("⚠️ Failed to load cjis_tips.json")
+            #endif
         }
     }
 

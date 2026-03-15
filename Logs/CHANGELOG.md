@@ -2,7 +2,116 @@
 
 ---
 
+## 2026-03-14
+
+### Security Review — iOS & Android
+
+#### Android — High Severity
+
+**H1 — `android:allowBackup` disabled (`AndroidManifest.xml`)**
+- Changed `allowBackup` from `true` → `false`. When enabled, app data (DataStore preferences, quiz progress, streak counts) is extractable via `adb backup` or Google cloud backup without rooting the device.
+
+**H2 — `BootReceiver` not exported (`AndroidManifest.xml`)**
+- Changed `BootReceiver android:exported` from `true` → `false`. An exported `BroadcastReceiver` without a permission guard can be triggered by any installed app, allowing arbitrary rescheduling of the daily reminder WorkManager task.
+
+#### Android — Medium Severity
+
+**M1 — ProGuard rules tightened (`app/proguard-rules.pro`)**
+- Changed `-keep class` → `-keepclassmembers class` for `com.refuge.cjisdaily.data.**`. The previous rule preserved class names in the release APK, making the package structure partially reversible. With `-keepclassmembers`, only field/method names needed for Gson reflection are preserved; class names are still obfuscated.
+- Changed `-keepattributes *Annotation*` → explicit `RuntimeVisibleAnnotations,RuntimeVisibleParameterAnnotations` to avoid preserving unnecessary metadata.
+
+**M2 — Gson deserialization crash guarded (`CJISViewModel.kt`)**
+- Wrapped both `gson.fromJson()` calls in `init` with `try-catch`. Previously a corrupted DataStore entry (e.g. from a mid-write crash or upgrade) would throw an uncaught exception during ViewModel initialization, crashing the app on launch.
+
+#### iOS — Medium Severity
+
+**M1 — Production logging removed (`NotificationManager.swift`, `DailyQuizStore.swift`, `AppViewModel.swift`, `TipStore.swift`)**
+- Wrapped all `print()` statements with `#if DEBUG` compilation guards. In a Release build, debug log strings containing internal class names, file paths, and error details are visible to anyone with a device logs tool (e.g. Console.app, `idevicesyslog`). Affected call sites: 4 in `NotificationManager.swift`, 3 in `DailyQuizStore.swift`, 1 in `AppViewModel.swift`, 1 in `TipStore.swift`.
+
+#### Deferred / Out of Scope
+
+- **iOS H1**: Migrate quiz progress and streak data from `UserDefaults` to the iOS Keychain — architectural change deferred.
+- **iOS M2**: Replace `precondition()` in `QuizQuestion.swift` with `guard + throw` — already addressed in the 2026-03-09 entry; confirmed resolved.
+- **iOS M3**: Certificate pinning for the privacy policy URL — requires SSL certificate details; deferred.
+
+---
+
+### Bug Fix — Daily Check Goes to Results Screen (iOS)
+
+**Root cause:** In `DailyCheckView.advanceOrFinish()`, the last question called `onFinished(correctCount, questions.count)` followed immediately by `dismiss()`. The `onFinished` callback in `DailyPackView` set `activeSheet = .results`, but then `dismiss()` — which is bound to the `.dailyCheck` fullScreenCover — reset `activeSheet` back to `nil` in the same update cycle, cancelling the results presentation and returning the user to the daily tips screen instead.
+
+**`DailyCheckView.swift`**
+- Removed `dismiss()` call from `advanceOrFinish()`. Changing `activeSheet` from `.dailyCheck` to `.results` inside the `onFinished` callback is sufficient — `fullScreenCover(item:)` automatically dismisses the current cover and presents the new one when the item changes.
+
+**Android** — no change required. `DailyCheckScreen` already navigates correctly: `LaunchedEffect(quizFinished) { if (quizFinished) onFinished() }` → `onFinished = { screen = Screen.RESULTS }` in `MainActivity`.
+
+---
+
+### Bug Fix — Daily Tips Repeating Across Days (iOS & Android)
+
+**Root cause:** `todayTips` was computed once on ViewModel/app init and never refreshed when the app returned from the background. SwiftUI's `onAppear` does not fire on foreground resume, and Android's ViewModel `init` block runs only once per process. Users who kept the app in the background overnight and opened it via a daily notification would see the previous day's 5 tips.
+
+**iOS — `DailyPackView.swift`**
+- Extracted the refresh logic (`DailyPackProgressManager.resetIfNewDay()`, `viewModel.refreshTodayTips()`, `index` guard, score re-read, fade animation) into a private `refreshForCurrentDay()` helper.
+- `onAppear` now calls `refreshForCurrentDay()`.
+- Added `.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification))` that also calls `refreshForCurrentDay()`, ensuring today's tips are loaded every time the user opens the app from a notification or app switcher on a new day.
+
+**Android — `CJISViewModel.kt`**
+- Added `refreshTodayTips()` function: checks if `dailyProgress.dayKey` matches today; if not, resets `DailyPackProgress` to a fresh state (persisted to DataStore) and reloads `_todayTips` from `DataRepository`.
+
+**Android — `DailyPackScreen.kt`**
+- Added `DisposableEffect` with a `LifecycleEventObserver` that calls `viewModel.refreshTodayTips()` and resets `currentTipIndex = 0` on every `ON_RESUME` event — covers both cold launch and background resume.
+
+---
+
+## 2026-03-12
+
+### Android — Icon & Splash Screen Fix
+
+**`res/mipmap-anydpi-v26/ic_launcher.xml` & `ic_launcher_round.xml`**
+- Changed adaptive icon to use `@mipmap/ic_launcher_foreground` as the *background* layer and `@android:color/transparent` as the *foreground*. Using the full composited PNG as a foreground layer on top of a matching blue background caused the artwork to be invisible (solid blue circle). Moving it to the background layer means the launcher clips the full PNG directly to the icon shape, making the laptop graphic and orange "CJIS" text visible.
+
+**`gradle/libs.versions.toml` & `app/build.gradle.kts`**
+- Added `androidx.core:core-splashscreen:1.0.1` dependency.
+
+**`res/values/themes.xml`**
+- Added `Theme.CJISDaily.Splash` extending `Theme.SplashScreen` with dark navy background (`#0D2E6E`) matching the iOS launch screen.
+
+**`res/values/colors.xml`**
+- Added `splash_background` color `#0D2E6E`.
+
+**`AndroidManifest.xml`**
+- Changed application theme to `Theme.CJISDaily.Splash` so the splash screen activates on launch.
+
+**`MainActivity.kt`**
+- Added `installSplashScreen()` call before `super.onCreate()`.
+
+### Android — Icon Fix
+
+**`res/mipmap-anydpi-v26/ic_launcher.xml` & `ic_launcher_round.xml`**
+- Fixed AAPT2 build error (`ResourceDirectoryParseException: Failed file name validation`) caused by invalid adaptive icon XML (background referenced a mipmap drawable, foreground referenced `@android:color/transparent`).
+- Reverted both files to valid format: `background = @color/ic_launcher_background`, `foreground = @mipmap/ic_launcher_foreground`.
+
+**`res/mipmap-*/ic_launcher_foreground.png`** (all densities)
+- Regenerated from correct iOS source: `AppIcon.appiconset/Icon-marketing-1024x1024.png` (laptop/monitor graphic with orange "CJIS" text on blue background) — replaces the previous source that rendered as solid blue.
+
+**`res/mipmap-*/ic_launcher.png` & `ic_launcher_round.png`** (all densities)
+- Regenerated from same correct iOS source for pre-API-26 devices.
+
+---
+
 ## 2026-03-11
+
+### Android — Stability Pass
+
+**`gradle/libs.versions.toml`**
+- Updated `coroutines` from `1.8.1` → `1.9.0` for Kotlin 2.2.x compatibility.
+
+**`ui/screens/DailyPackScreen.kt`**
+- Fixed layout bug: moved `Modifier.weight(1f)` from the inner `Column` (inside `AnimatedContent`) to `AnimatedContent` itself. The `weight` modifier is only honored by direct `Column`/`Row` children; applied inside `AnimatedContent`'s internal `Box` it was silently ignored, causing the scrollable tip area to not expand and the bottom nav bar to be pushed off-screen. Inner `Column` now uses `fillMaxSize()`.
+
+**`ui/screens/ResultsScreen.kt`**
+- Fixed layout bug: replaced two `HorizontalDivider` calls used as visual separators inside a `Row` with `VerticalDivider`. A `HorizontalDivider` inside a `Row` draws a full-width horizontal line and consumes all remaining horizontal space, collapsing sibling columns. Updated import accordingly.
 
 ### Android — Initial Release Build
 

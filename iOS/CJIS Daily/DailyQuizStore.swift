@@ -33,7 +33,9 @@ final class DailyQuizStore {
 
     private func loadFromBundle() {
         guard let url = Bundle.main.url(forResource: "cjis_quizzes", withExtension: "json") else {
+            #if DEBUG
             print("DailyQuizStore: cjis_quizzes.json not found in bundle.")
+            #endif
             questionsByTipId = [:]
             return
         }
@@ -48,9 +50,13 @@ final class DailyQuizStore {
                 map[set.tipId] = set.questions
             }
             questionsByTipId = map
+            #if DEBUG
             print("DailyQuizStore: Loaded quizzes for \(questionsByTipId.keys.count) tip IDs.")
+            #endif
         } catch {
+            #if DEBUG
             print("DailyQuizStore: Failed to load or decode cjis_quizzes.json: \(error)")
+            #endif
             questionsByTipId = [:]
         }
     }

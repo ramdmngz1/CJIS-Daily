@@ -55,5 +55,6 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.core.splashscreen)
     debugImplementation(libs.androidx.ui.tooling)
 }

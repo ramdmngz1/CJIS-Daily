@@ -85,14 +85,22 @@ class CJISViewModel(private val context: Context) : ViewModel() {
             _reminderMinute.value = prefs[KEY_REMINDER_MINUTE] ?: 0
 
             prefs[KEY_QUIZ_PROGRESS]?.let { json ->
-                _quizProgress.value = gson.fromJson(json, QuizProgress::class.java)
+                try {
+                    _quizProgress.value = gson.fromJson(json, QuizProgress::class.java)
+                } catch (_: Exception) {
+                    // Corrupted data — reset to defaults silently
+                }
             }
 
             val todayKey = repository.todayKey()
             prefs[KEY_DAILY_PROGRESS]?.let { json ->
-                val saved = gson.fromJson(json, DailyPackProgress::class.java)
-                _dailyProgress.value = if (saved.dayKey == todayKey) saved
-                                       else DailyPackProgress(dayKey = todayKey)
+                try {
+                    val saved = gson.fromJson(json, DailyPackProgress::class.java)
+                    _dailyProgress.value = if (saved.dayKey == todayKey) saved
+                                           else DailyPackProgress(dayKey = todayKey)
+                } catch (_: Exception) {
+                    _dailyProgress.value = DailyPackProgress(dayKey = todayKey)
+                }
             } ?: run {
                 _dailyProgress.value = DailyPackProgress(dayKey = todayKey)
             }
@@ -118,6 +126,19 @@ class CJISViewModel(private val context: Context) : ViewModel() {
             }
         }
         DailyReminderWorker.schedule(context, hour, minute)
+    }
+
+    fun refreshTodayTips() {
+        val todayKey = repository.todayKey()
+        // Reset daily progress if it's a new day
+        if (_dailyProgress.value.dayKey != todayKey) {
+            val fresh = DailyPackProgress(dayKey = todayKey)
+            _dailyProgress.value = fresh
+            viewModelScope.launch {
+                context.dataStore.edit { it[KEY_DAILY_PROGRESS] = gson.toJson(fresh) }
+            }
+        }
+        _todayTips.value = repository.tipsForToday()
     }
 
     fun startDailyCheck() {

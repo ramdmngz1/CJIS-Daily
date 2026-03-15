@@ -12,11 +12,13 @@ final class NotificationManager {
 
     func requestAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            #if DEBUG
             if let error = error {
                 print("Notification auth error: \(error)")
             } else {
                 print("Notifications granted: \(granted)")
             }
+            #endif
         }
     }
 
@@ -27,7 +29,9 @@ final class NotificationManager {
         center.getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized ||
                   settings.authorizationStatus == .provisional else {
+                #if DEBUG
                 print("⚠️ Notification permission not granted — skipping schedule")
+                #endif
                 return
             }
 
@@ -44,9 +48,11 @@ final class NotificationManager {
                                                 content: content,
                                                 trigger: trigger)
             center.add(request) { error in
+                #if DEBUG
                 if let error = error {
                     print("⚠️ Error scheduling notification: \(error)")
                 }
+                #endif
             }
         }
     }

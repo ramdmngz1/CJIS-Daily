@@ -79,8 +79,10 @@ final class QuizProgressManager {
 
         // Lifetime score: record once per day
         if state.lastScoreRecordedDayKey != dayKey {
-            state.lifetimeCorrect += max(0, correct)
-            state.lifetimeAnswered += max(0, total)
+            let clampedTotal = max(0, total)
+            let clampedCorrect = max(0, min(correct, clampedTotal))
+            state.lifetimeCorrect += clampedCorrect
+            state.lifetimeAnswered += clampedTotal
             state.lastScoreRecordedDayKey = dayKey
         }
 

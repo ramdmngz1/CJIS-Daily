@@ -189,11 +189,15 @@ class CJISViewModel(private val context: Context) : ViewModel() {
         val total = _quizQuestions.value.size
         val todayKey = repository.todayKey()
 
+        // Clamp to prevent negative or out-of-range values from corrupting lifetime stats
+        val clampedTotal = maxOf(0, total)
+        val clampedCorrect = maxOf(0, minOf(correct, clampedTotal))
+
         // Update daily progress
         val newDaily = DailyPackProgress(
             dayKey = todayKey,
             dailyCheckCompleted = true,
-            score = DailyScore(correct, total)
+            score = DailyScore(clampedCorrect, clampedTotal)
         )
         _dailyProgress.value = newDaily
         viewModelScope.launch {
@@ -204,8 +208,8 @@ class CJISViewModel(private val context: Context) : ViewModel() {
         val current = _quizProgress.value
         if (current.lastScoreRecordedDayKey != todayKey) {
             val updated = current.copy(
-                lifetimeCorrect = current.lifetimeCorrect + correct,
-                lifetimeAnswered = current.lifetimeAnswered + total,
+                lifetimeCorrect = current.lifetimeCorrect + clampedCorrect,
+                lifetimeAnswered = current.lifetimeAnswered + clampedTotal,
                 streakCount = current.streakCount + 1,
                 lastScoreRecordedDayKey = todayKey
             )

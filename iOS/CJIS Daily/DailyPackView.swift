@@ -236,7 +236,7 @@ struct DailyPackView: View {
 
     private var emptyState: some View {
         AppCard(isDark: isDark) {
-            Text("Loading tips…")
+            Text("Tips unavailable. Please reinstall the app.")
                 .font(AppStyle.body(16, weight: .semibold))
                 .foregroundColor(inkColor)
         }

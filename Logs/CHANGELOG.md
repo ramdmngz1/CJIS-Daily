@@ -2,6 +2,92 @@
 
 ---
 
+## 2026-03-20
+
+### Content Fix — Quiz Answer Distribution (`cjis_quizzes.json`)
+
+All 730 quiz questions had heavily skewed correct-answer positions: 63% (465) were index 1 (B), 33% (241) were index 2 (C), 2% (17) were index 0 (A), and less than 1% (7) were index 3 (D). This made the quiz trivially predictable — users could answer B on every question and score ~63%.
+
+**Fix:** For each question, the choices array was rotated so the correct answer lands at a new position, with the target positions distributed evenly across all questions using a fixed-seed shuffle. The correct answer text and explanation for every question are unchanged.
+
+**Before:**
+- A: 17 (2%) · B: 465 (63%) · C: 241 (33%) · D: 7 (1%)
+
+**After:**
+- A: 183 (25%) · B: 183 (25%) · C: 182 (25%) · D: 182 (25%)
+
+Both platform files updated:
+- `iOS/CJIS Daily/cjis_quizzes.json`
+- `Android/Project/app/src/main/res/raw/cjis_quizzes.json`
+
+---
+
+## 2026-03-18
+
+### Android Parity — Pre-Submission Review Fixes
+
+Applied all fixes from today's iOS pre-submission review to the Android codebase.
+
+#### Bug Fix — Score Values Not Clamped (`CJISViewModel.kt`)
+
+Mirrored the iOS `QuizProgressManager` and `DailyPackProgressManager` clamping fix. In `finishQuiz()`, both `correct` and `total` are now clamped before being used to update `DailyPackProgress.score` and the lifetime stats in `QuizProgress`:
+
+```kotlin
+val clampedTotal = maxOf(0, total)
+val clampedCorrect = maxOf(0, minOf(correct, clampedTotal))
+```
+
+`DailyScore`, `lifetimeCorrect`, and `lifetimeAnswered` now use the clamped values, preventing `lifetimeCorrect > lifetimeAnswered` if a caller ever passes out-of-range values.
+
+#### UX Fix — Misleading Empty State (`DailyPackScreen.kt`)
+
+When `tips` is empty (bundled `cjis_tips.json` fails to decode), the tips area previously showed nothing — just a blank column. Added an explicit empty state message matching the iOS fix:
+- Shows `"Tips unavailable. Please reinstall the app."` centered in the tips area when `tip == null`.
+
+---
+
+### App Store Submission Fix — Privacy Manifest (`PrivacyInfo.xcprivacy`)
+
+Apple requires a privacy manifest for all App Store submissions (enforced since Spring 2024). Without it, App Store Connect rejects the archive at upload time.
+
+- Created `CJIS Daily/PrivacyInfo.xcprivacy` declaring:
+  - `NSPrivacyTracking: false` — app does not track users across apps or websites
+  - `NSPrivacyCollectedDataTypes: []` — no data collected, sent, or shared off-device
+  - `NSPrivacyTrackingDomains: []` — no tracking domains
+  - `NSPrivacyAccessedAPITypes`: `NSPrivacyAccessedAPICategoryUserDefaults` with reason `CA92.1` — UserDefaults used solely to persist per-user app settings (theme, notification time, quiz progress, daily completion state)
+
+**Action required in Xcode:** Add `PrivacyInfo.xcprivacy` to the *CJIS Daily* target under Build Phases → Copy Bundle Resources. Xcode will then embed it in the app bundle automatically.
+
+---
+
+### Pre-Submission Review — iOS
+
+Full audit of all 19 Swift source files prior to external TestFlight/App Store submission. No security vulnerabilities found (zero network calls, no API keys, no hardcoded secrets, all `print` statements DEBUG-guarded, ATS is default/secure, no force-unwraps, no retain cycles).
+
+Two defensive coding gaps and one UX issue addressed:
+
+#### Bug Fix — Score Values Not Clamped (`QuizProgressManager.swift`)
+
+**Root cause:** `recordDailyCheckIfNeeded(correct:total:)` accumulated lifetime score with `max(0, correct)` / `max(0, total)` independently. A caller passing `correct > total` (impossible from `DailyCheckView` today, but not enforced at the API boundary) could produce `lifetimeCorrect > lifetimeAnswered`, violating the invariant already checked in `init`.
+
+- `correct` is now clamped to `[0, total]` before accumulation:
+  ```swift
+  let clampedTotal = max(0, total)
+  let clampedCorrect = max(0, min(correct, clampedTotal))
+  ```
+
+#### Bug Fix — Score Values Not Clamped (`DailyPackProgressManager.swift`)
+
+**Root cause:** `markDailyCheckCompleted(correct:total:)` stored `Score(correct: correct, total: total)` with no validation. Same boundary enforcement applied:
+- `clampedTotal = max(0, total)`, `correct` clamped to `[0, clampedTotal]` before constructing `Score`.
+
+#### UX Fix — Misleading Empty State Text (`DailyPackView.swift`)
+
+- Changed `emptyState` text from `"Loading tips…"` → `"Tips unavailable. Please reinstall the app."`
+- The empty state only appears if the bundled `cjis_tips.json` fails to decode — content is not "loading" from a server; showing a spinner-style message incorrectly implies a transient network state.
+
+---
+
 ## 2026-03-14
 
 ### Security Review — iOS & Android

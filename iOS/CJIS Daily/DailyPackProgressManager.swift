@@ -47,7 +47,8 @@ final class DailyPackProgressManager {
     func markDailyCheckCompleted(correct: Int, total: Int) {
         resetIfNewDay()
         state.dailyCheckCompleted = true
-        state.score = Score(correct: correct, total: total)
+        let clampedTotal = max(0, total)
+        state.score = Score(correct: max(0, min(correct, clampedTotal)), total: clampedTotal)
         persist()
     }
 

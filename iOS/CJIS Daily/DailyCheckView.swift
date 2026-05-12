@@ -22,15 +22,13 @@ struct DailyCheckView: View {
 
     @State private var correctCount: Int = 0
 
+    // Computed once on appear; SwiftUI re-runs body frequently and the lookup
+    // (compactMap + DailyQuizStore.shared.questions) shouldn't repeat each frame.
+    @State private var questions: [QuizQuestion] = []
+
     private var isDark: Bool { ThemeMode(rawValue: themeModeRaw) == .dark }
     private var inkColor: Color { AppStyle.ink(isDark: isDark) }
     private var brandBlue: Color { AppStyle.cjisBlue }
-
-    private var questions: [QuizQuestion] {
-        // Deterministic: pick the first question for each tip.
-        // TipStore is already filtering to tips that have questions, so this should always be 5.
-        tips.compactMap { DailyQuizStore.shared.questions(for: $0.id).first }
-    }
 
     private var currentQuestion: QuizQuestion? {
         guard !questions.isEmpty, questions.indices.contains(currentIndex) else { return nil }
@@ -162,6 +160,13 @@ struct DailyCheckView: View {
             .padding(.bottom, 18)
         }
         .environment(\.colorScheme, isDark ? .dark : .light)
+        .onAppear {
+            if questions.isEmpty {
+                // Deterministic: pick the first question for each tip.
+                // TipStore filters to tips that have questions, so this should normally be 5.
+                questions = tips.compactMap { DailyQuizStore.shared.questions(for: $0.id).first }
+            }
+        }
     }
 
     private func optionState(for idx: Int, question: QuizQuestion) -> AnswerOptionState {

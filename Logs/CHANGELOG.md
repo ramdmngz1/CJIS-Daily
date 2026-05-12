@@ -2,6 +2,103 @@
 
 ---
 
+## 2026-05-08
+
+### Code Review — Cross-Platform Pre-Release Pass
+
+External code review of all iOS Swift and Android Kotlin source files. Three critical bugs (one of which silently regressed `BOOT_COMPLETED` rescheduling on Android), one cross-platform behavioral mismatch in the streak math, and one cross-platform mismatch in the daily-tip rotation formula. All fixes applied to both platforms where applicable.
+
+#### Bug Fix — Critical — `BootReceiver` Never Receives `BOOT_COMPLETED` (`AndroidManifest.xml`)
+
+**Root cause:** On 2026-03-14 the `BootReceiver` was changed to `android:exported="false"` as a "security fix." That change was incorrect. `BOOT_COMPLETED` is a protected system broadcast that *only* the OS can send, and starting in API 31+ Android requires receivers that filter on system-defined actions to be exported so the system can deliver the intent. With `exported="false"`, the receiver never fires after a reboot, and the daily reminder `WorkManager` task is never re-scheduled until the user opens the app and re-saves the reminder time. Users who reboot their phone silently lose the daily notification.
+
+The original 2026-03-14 reasoning ("an exported receiver without a permission guard can be triggered by any installed app") doesn't apply here: `BOOT_COMPLETED` is a protected action — third-party apps cannot send it — and the `RECEIVE_BOOT_COMPLETED` permission is a self-permission the app already declares.
+
+**Fix:**
+- `AndroidManifest.xml` — `BootReceiver android:exported` flipped back to `"true"`.
+
+#### Bug Fix — Critical — Streak Always Increments by 1 on Android (`CJISViewModel.kt`)
+
+**Root cause:** `finishQuiz()` updated the streak with `streakCount = current.streakCount + 1` unconditionally, with no check for whether the previous completion was actually one calendar day ago. iOS `QuizProgressManager.bumpStreak` correctly resets the streak to 1 when the gap isn't 1 day. Result: an Android user who took the check today, then again 30 days later, ended up with a streak of 2 instead of 1. iOS and Android streaks for the same user could differ wildly.
+
+**Fix (`CJISViewModel.kt`):**
+- Added `nextStreak(lastDayKey, todayKey, currentStreak)` helper that parses both ISO date strings, computes `ChronoUnit.DAYS.between`, and returns `currentStreak + 1` only when the diff is exactly `1L`. Otherwise resets to `1`. Empty/malformed last-day-key also resets to `1`.
+- `finishQuiz()` now calls `nextStreak(...)` instead of unconditionally incrementing.
+- Mirrors the iOS `QuizProgressManager.bumpStreak(for:)` semantics so streak counts now agree across platforms for the same calendar history.
+
+#### Bug Fix — Critical — Stale Daily State Across Midnight (`DailyPackProgressManager.swift`)
+
+**Root cause:** This re-applies `resetIfNewDay()` calls inside the `isDailyCheckCompleted` and `todaysScore` getters that the 2026-03-09 entry removed for "performance." That earlier removal was based on the assumption that `DailyPackView.onAppear` (and later `willEnterForegroundNotification` from 2026-03-14) would always run before any read. That holds for the main view, but:
+
+1. The singleton is shared, and any other consumer reading `isDailyCheckCompleted` outside the `DailyPackView` render path (e.g., a future widget, complication, intent extension, or unit test) sees stale state.
+2. The "performance" concern was overstated: `resetIfNewDay()` early-returns on a string compare when the day hasn't changed (`guard state.dayKey != todayKey else { return }`), so the only cost on the hot path is a single string equality check — no encoding, no UserDefaults write.
+
+**Fix:**
+- `DailyPackProgressManager.swift` — `isDailyCheckCompleted` and `todaysScore` getters now call `resetIfNewDay()` before returning state, restoring the self-healing behavior on day rollover. The body of `DailyPackView` continues to call `refreshForCurrentDay()` via `onAppear` / `willEnterForeground`, so the change is purely defense-in-depth in the common path.
+
+#### Bug Fix — High — iOS / Android Daily Tip Rotation Formula Mismatch (`DataRepository.kt`)
+
+**Root cause:** iOS `TipStore.tipsForToday` uses `((dayOfYear - 1) * count) % size` for the rotation start index. Android `DataRepository.tipsForToday` was using `(dayOfYear * count) % size` — off by one day's worth of pack offset. Two users with both apps installed (or one user across platforms) saw different sets of tips on the same calendar day. The 2026-03-11 entry's claim that Android "uses the same deterministic day-of-year rotation algorithm as iOS" was inaccurate.
+
+**Fix (`DataRepository.kt`):**
+- Changed `(dayOfYear * count) % size` → `((dayOfYear - 1) * count).mod(size)`. Used Kotlin's `.mod()` instead of `%` so a negative product (defensive — shouldn't happen in practice, but `dayOfYear` could in theory be 0 if the API ever changed) still produces a non-negative index.
+
+#### Bug Fix — High — Duplicate Tips When Library Smaller Than Pack Size (`DataRepository.kt`)
+
+**Root cause:** `tipsForToday` mapped `(0 until count)` directly through the modulo formula, so when `tipsWithQuizzes.size < count` the same tip appeared twice in the same day's pack. iOS guards against this with a `Set<Int>` dedupe loop in `TipStore.tipsForToday`. Android did not.
+
+**Fix (`DataRepository.kt`):**
+- Replaced the simple `(0 until count).map { ... }` with a dedupe loop using `mutableSetOf<Int>()` to track seen `tip.id`s, mirroring iOS. The loop iterates up to `tipsWithQuizzes.size` candidates and emits at most `min(count, tipsWithQuizzes.size)` unique tips.
+- Also added an explicit `count <= 0` early-return guard.
+
+#### Hardening — Notification Permission Not Re-Prompted Each Launch (`MainActivity.kt`)
+
+**Root cause:** `onCreate` called `notificationPermissionLauncher.launch(POST_NOTIFICATIONS)` unconditionally on every Activity creation (Android 13+). Android's permission system suppresses the prompt after a hard deny, but the launcher invocation itself is still wasteful and noisy in lifecycle traces.
+
+**Fix (`MainActivity.kt`):**
+- Wrapped the launcher call in a `ContextCompat.checkSelfPermission(...) == PERMISSION_GRANTED` gate. Now only requested when actually needed.
+- Added imports for `android.content.pm.PackageManager` and `androidx.core.content.ContextCompat`.
+
+#### Hardening — Race-Safe Quiz Submission (`CJISViewModel.kt`)
+
+**Root cause:** `selectAnswer` and `submitAnswer` did not guard against state mutation after the quiz had already been finished, and `submitAnswer` did not guard against a second submission of the same question (which would double-increment `_quizCorrectCount`).
+
+**Fix (`CJISViewModel.kt`):**
+- `selectAnswer`: early return if `_quizFinished.value`.
+- `submitAnswer`: early return if `_quizFinished.value`, and additionally early return if `_submittedAnswerIndex.value != null` (already submitted this question).
+
+#### Refactor — Single Source of Truth for Streak Math (`QuizProgressManager.swift`)
+
+**Root cause:** Streak logic was duplicated between `recordDailyCheckIfNeeded` and the now-legacy `markDailyCompletedIfNeeded`. A future change to one path could miss the other.
+
+**Fix (`QuizProgressManager.swift`):**
+- Extracted `private func bumpStreak(for date: Date)` as the single implementation. Both call sites now delegate to it.
+- `markDailyCompletedIfNeeded` retains its early-return check for "already counted today" to avoid an unnecessary `persist()` write when nothing changed.
+- Behavior is unchanged.
+
+#### Hardening — Persist Failures No Longer Silent in DEBUG (`QuizProgressManager.swift`)
+
+**Root cause:** `persist()` used `try? JSONEncoder().encode(state)` which silently dropped any encoding error. While `Codable` failures are rare on simple struct types, a future field addition that's not encodable would fail to persist with no observable signal.
+
+**Fix (`QuizProgressManager.swift`):**
+- Replaced `try?` with `do/try/catch`. In DEBUG, `assertionFailure` surfaces the error during development. In Release, the in-memory state is preserved and the next `persist()` will retry.
+
+#### Performance — Cache Daily Quiz Questions (`DailyCheckView.swift`)
+
+**Root cause:** `questions` was a computed property running `tips.compactMap { DailyQuizStore.shared.questions(for: $0.id).first }` on every body re-evaluation. SwiftUI re-evaluates `body` frequently (on every state change, including the user tapping a multiple-choice option), so the lookup repeated unnecessarily.
+
+**Fix (`DailyCheckView.swift`):**
+- `questions` is now `@State private var questions: [QuizQuestion] = []`, seeded once via `.onAppear` if empty. The view's `tips` parameter is `let`-immutable for the lifetime of the view, so cache invalidation is unnecessary.
+
+### Deferred (Reviewed, Not Changed)
+
+- **`Models.kt` — `DailyPackProgress.score` nullability mismatch with iOS.** iOS uses `Score?` (nullable); Android uses a `DailyScore(0, 0)` sentinel. Aligning would require coordinated edits across `DailyPackScreen`, `ResultsScreen`, and `CJISViewModel` to handle null. The sentinel works correctly in current callers, so left as a future tech-debt item.
+- **`TipStore.swift` — `dayOfYear` rotation resets every January 1st.** On Jan 1 next year users see the same pack as Jan 1 this year. Confirmed intentional per the in-source comment ("Deterministic rotation with wraparound (no randomness during App Review)").
+- **`DailyReminderWorker.kt` — generic `android.R.drawable.ic_dialog_info` notification icon.** Replacing with a branded monochrome vector requires a new asset; left for the next icon pass.
+- **`CJISViewModel.kt` — DataStore read with `.first()` is non-reactive.** Out-of-band writes (e.g., from `BootReceiver`) won't update the UI. Not a bug today since nothing else writes those keys, but a maintainability note for future widget/intent work.
+
+---
+
 ## 2026-03-20
 
 ### Content Fix — Quiz Answer Distribution (`cjis_quizzes.json`)

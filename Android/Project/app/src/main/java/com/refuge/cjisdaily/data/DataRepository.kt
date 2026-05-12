@@ -31,12 +31,24 @@ class DataRepository(private val context: Context) {
     }
 
     fun tipsForToday(date: LocalDate = LocalDate.now(), count: Int = 5): List<CjisTip> {
-        if (tipsWithQuizzes.isEmpty()) return emptyList()
+        if (count <= 0 || tipsWithQuizzes.isEmpty()) return emptyList()
+
         val dayOfYear = date.dayOfYear
-        val startIndex = (dayOfYear * count) % tipsWithQuizzes.size
-        return (0 until count).map { offset ->
-            tipsWithQuizzes[(startIndex + offset) % tipsWithQuizzes.size]
+        // NOTE: ((dayOfYear - 1) * count) matches the iOS TipStore.tipsForToday formula so
+        // both platforms produce the same pack on the same calendar day.
+        val startIndex = ((dayOfYear - 1) * count).mod(tipsWithQuizzes.size)
+        val target = minOf(count, tipsWithQuizzes.size)
+
+        val results = mutableListOf<CjisTip>()
+        val seenIds = mutableSetOf<Int>()
+        for (i in 0 until tipsWithQuizzes.size) {
+            if (results.size >= target) break
+            val candidate = tipsWithQuizzes[(startIndex + i) % tipsWithQuizzes.size]
+            if (seenIds.add(candidate.id)) {
+                results.add(candidate)
+            }
         }
+        return results
     }
 
     fun questionsForTip(tipId: Int): List<QuizQuestion> =

@@ -52,12 +52,16 @@ final class DailyPackProgressManager {
         persist()
     }
 
+    /// Reads roll the day forward first so a stale singleton (app suspended across midnight)
+    /// doesn't return yesterday's "completed" state for today.
     var isDailyCheckCompleted: Bool {
-        state.dailyCheckCompleted
+        resetIfNewDay()
+        return state.dailyCheckCompleted
     }
 
     var todaysScore: Score? {
-        state.score
+        resetIfNewDay()
+        return state.score
     }
 
     private func persist() {

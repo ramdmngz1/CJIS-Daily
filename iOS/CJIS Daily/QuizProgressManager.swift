@@ -60,22 +60,9 @@ final class QuizProgressManager {
     /// Call when the user finishes the DAILY check for the day.
     /// Batches all state mutations into a single persist() call to avoid partial writes on crash.
     func recordDailyCheckIfNeeded(correct: Int, total: Int, date: Date = Date()) {
-        let cal = Calendar.current
-        let today = cal.startOfDay(for: date)
         let dayKey = Self.dayKey(for: date)
 
-        // Streak: increment once per day
-        if let last = state.lastCompletionDate, cal.isDate(last, inSameDayAs: today) {
-            // Already recorded today — skip streak update
-        } else {
-            if let last = state.lastCompletionDate {
-                let diff = cal.dateComponents([.day], from: cal.startOfDay(for: last), to: today).day ?? 0
-                state.streakCount = diff == 1 ? state.streakCount + 1 : 1
-            } else {
-                state.streakCount = 1
-            }
-            state.lastCompletionDate = today
-        }
+        bumpStreak(for: date)
 
         // Lifetime score: record once per day
         if state.lastScoreRecordedDayKey != dayKey {
@@ -104,32 +91,44 @@ final class QuizProgressManager {
     private func markDailyCompletedIfNeeded(date: Date) {
         let cal = Calendar.current
         let today = cal.startOfDay(for: date)
+        if let last = state.lastCompletionDate, cal.isDate(last, inSameDayAs: today) {
+            return // already counted today; nothing to persist
+        }
+        bumpStreak(for: date)
+        persist()
+    }
 
-        // Don’t increment streak more than once per day
+    /// Single source of truth for streak math.
+    /// - Increments when the previous completion was exactly one calendar day ago.
+    /// - Resets to 1 when there's no prior record or the gap isn't 1 day.
+    /// - Idempotent within a single calendar day.
+    private func bumpStreak(for date: Date) {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: date)
+
         if let last = state.lastCompletionDate, cal.isDate(last, inSameDayAs: today) {
             return
         }
 
         if let last = state.lastCompletionDate {
-            let startLast = cal.startOfDay(for: last)
-            let diff = cal.dateComponents([.day], from: startLast, to: today).day ?? 0
-
-            if diff == 1 {
-                state.streakCount += 1
-            } else {
-                state.streakCount = 1
-            }
+            let diff = cal.dateComponents([.day], from: cal.startOfDay(for: last), to: today).day ?? 0
+            state.streakCount = diff == 1 ? state.streakCount + 1 : 1
         } else {
             state.streakCount = 1
         }
-
         state.lastCompletionDate = today
-        persist()
     }
 
     private func persist() {
-        if let data = try? JSONEncoder().encode(state) {
+        do {
+            let data = try JSONEncoder().encode(state)
             UserDefaults.standard.set(data, forKey: storageKey)
+        } catch {
+            #if DEBUG
+            assertionFailure("QuizProgressManager: failed to encode state — \(error)")
+            #else
+            // Silent in release; mutating in-memory state survives until next persist attempt.
+            #endif
         }
     }
 

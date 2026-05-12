@@ -23,6 +23,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "cjis_daily_prefs")
 
@@ -156,12 +158,15 @@ class CJISViewModel(private val context: Context) : ViewModel() {
     }
 
     fun selectAnswer(index: Int) {
+        if (_quizFinished.value) return
         if (_submittedAnswerIndex.value == null) {
             _selectedAnswerIndex.value = index
         }
     }
 
     fun submitAnswer() {
+        if (_quizFinished.value) return
+        if (_submittedAnswerIndex.value != null) return
         val selected = _selectedAnswerIndex.value ?: return
         _submittedAnswerIndex.value = selected
         _showExplanation.value = true
@@ -210,13 +215,32 @@ class CJISViewModel(private val context: Context) : ViewModel() {
             val updated = current.copy(
                 lifetimeCorrect = current.lifetimeCorrect + clampedCorrect,
                 lifetimeAnswered = current.lifetimeAnswered + clampedTotal,
-                streakCount = current.streakCount + 1,
+                streakCount = nextStreak(current.lastScoreRecordedDayKey, todayKey, current.streakCount),
                 lastScoreRecordedDayKey = todayKey
             )
             _quizProgress.value = updated
             viewModelScope.launch {
                 context.dataStore.edit { it[KEY_QUIZ_PROGRESS] = gson.toJson(updated) }
             }
+        }
+    }
+
+    /**
+     * Compute the next streak count.
+     * - If there's no previous record, the streak starts at 1.
+     * - If the previous completion was exactly 1 day ago, the streak increments.
+     * - Otherwise (skipped a day, malformed key, or anything else) the streak resets to 1.
+     * Mirrors iOS QuizProgressManager.bumpStreak so streak semantics stay consistent across platforms.
+     */
+    private fun nextStreak(lastDayKey: String, todayKey: String, currentStreak: Int): Int {
+        if (lastDayKey.isBlank()) return 1
+        return try {
+            val last = LocalDate.parse(lastDayKey)
+            val today = LocalDate.parse(todayKey)
+            val diff = ChronoUnit.DAYS.between(last, today)
+            if (diff == 1L) currentStreak + 1 else 1
+        } catch (_: Exception) {
+            1
         }
     }
 

@@ -129,7 +129,7 @@ struct DailyCheckView: View {
                                 Text(hasNextQuestion ? "Next Question" : "Finish")
                                     .font(AppStyle.body(15, weight: .semibold))
                                 Image(systemName: hasNextQuestion ? "arrow.right" : "checkmark.circle.fill")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .font(AppStyle.body(13, weight: .semibold))
                             }
                             .foregroundColor(.white)
                             .padding(.vertical, 12)

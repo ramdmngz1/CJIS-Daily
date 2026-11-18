@@ -15,12 +15,17 @@ enum AppStyle {
     static let cjisBlueSoft = Color(red: 0.11, green: 0.32, blue: 0.63).opacity(0.12)
 
     // MARK: Typography (mock-like)
+    /// Scales a base point size with the user's Dynamic Type setting.
+    static func scaled(_ size: CGFloat) -> CGFloat {
+        UIFontMetrics.default.scaledValue(for: size)
+    }
+
     static func titleSerif(_ size: CGFloat, weight: Font.Weight = .bold) -> Font {
-        .system(size: size, weight: weight, design: .serif)
+        .system(size: scaled(size), weight: weight, design: .serif)
     }
 
     static func body(_ size: CGFloat = 16, weight: Font.Weight = .regular) -> Font {
-        .system(size: size, weight: weight, design: .default)
+        .system(size: scaled(size), weight: weight, design: .default)
     }
 
     // MARK: Colors

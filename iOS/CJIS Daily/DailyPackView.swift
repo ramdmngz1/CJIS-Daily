@@ -110,6 +110,8 @@ struct DailyPackView: View {
         }
         .safeAreaInset(edge: .bottom) {
             navBar
+                .frame(maxWidth: AppStyle.contentMaxWidth)
+                .frame(maxWidth: .infinity)
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                 .padding(.bottom, 8)
@@ -142,6 +144,8 @@ struct DailyPackView: View {
             .buttonStyle(.plain)
             .accessibilityLabel("Settings")
         }
+        .frame(maxWidth: AppStyle.contentMaxWidth)
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
         .padding(.top, 10)
         .padding(.bottom, 6)
@@ -171,7 +175,7 @@ struct DailyPackView: View {
                             Text("More detail")
                                 .font(AppStyle.body(15, weight: .semibold))
                             Image(systemName: showDetails ? "chevron.up" : "chevron.down")
-                                .font(.system(size: 13, weight: .bold))
+                                .font(AppStyle.body(13, weight: .bold))
                         }
                         .foregroundColor(brandBlue)
                         .padding(.vertical, 6)

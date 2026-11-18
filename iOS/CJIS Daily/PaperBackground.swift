@@ -21,7 +21,6 @@ struct PaperBackground: View {
 
     var body: some View {
         baseColor
-            .ignoresSafeArea()
             .overlay(
                 LinearGradient(
                     colors: [
@@ -41,5 +40,8 @@ struct PaperBackground: View {
                     .blur(radius: 0.5)
                     .opacity(0.7)
             )
+            // Extend the whole texture (base + overlays) under the status bar and
+            // home indicator so there is no visible seam at the safe-area edges.
+            .ignoresSafeArea()
     }
 }

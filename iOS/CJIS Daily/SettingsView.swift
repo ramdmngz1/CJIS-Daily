@@ -136,7 +136,7 @@ It does not access or store Criminal Justice Information (CJI) and is not affili
                                         Text("Privacy Policy")
                                             .font(AppStyle.body(15, weight: .semibold))
                                         Image(systemName: "arrow.up.right")
-                                            .font(.system(size: 12, weight: .semibold))
+                                            .font(AppStyle.body(12, weight: .semibold))
                                     }
                                     .foregroundColor(brandBlue)
                                 }
@@ -161,7 +161,7 @@ It does not access or store Criminal Justice Information (CJI) and is not affili
                 isPresented = false
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(AppStyle.body(18, weight: .semibold))
                     .foregroundColor(brandBlue)
                     .padding(10)
                     .frame(minWidth: 44, minHeight: 44)

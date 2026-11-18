@@ -44,7 +44,7 @@ struct AnswerOptionButton: View {
                             .foregroundColor(inkColor.opacity(0.45))
                     }
                 }
-                .font(.system(size: 17, weight: .semibold))
+                .font(AppStyle.body(17, weight: .semibold))
                 .padding(.top, 1)
 
                 Text(text)
